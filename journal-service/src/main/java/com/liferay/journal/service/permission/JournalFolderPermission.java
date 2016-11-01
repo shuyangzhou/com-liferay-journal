@@ -95,6 +95,8 @@ public class JournalFolderPermission implements BaseModelPermissionChecker {
 			while (folderId !=
 						JournalFolderConstants.DEFAULT_PARENT_FOLDER_ID) {
 
+				JournalFolder parentFolder = folder;
+
 				folder = _journalFolderLocalService.fetchFolder(folderId);
 
 				if (folder != null) {
@@ -103,7 +105,12 @@ public class JournalFolderPermission implements BaseModelPermissionChecker {
 					}
 				}
 				else {
-					if (!folder.isInTrash()) {
+					if (parentFolder.isInTrash()) {
+						folder = parentFolder;
+
+						break;
+					}
+					else {
 						_log.error(
 							"Unable to obtain JournalFolder with folderId" +
 								folderId);
