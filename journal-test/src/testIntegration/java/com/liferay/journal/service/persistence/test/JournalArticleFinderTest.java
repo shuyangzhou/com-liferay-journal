@@ -431,6 +431,8 @@ public class JournalArticleFinderTest {
 
 		// Comparators
 
+		prepareSortedArticles();
+
 		testQueryByG_F(new ArticleCreateDateComparator(true));
 		testQueryByG_F(new ArticleCreateDateComparator(false));
 		testQueryByG_F(new ArticleDisplayDateComparator(true));
@@ -597,8 +599,6 @@ public class JournalArticleFinderTest {
 	protected void testQueryByG_F(
 			OrderByComparator<JournalArticle> orderByComparator)
 		throws Exception {
-
-		prepareSortedArticles();
 
 		QueryDefinition<JournalArticle> queryDefinition =
 			new QueryDefinition<>();
