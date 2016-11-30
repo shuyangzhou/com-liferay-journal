@@ -85,7 +85,7 @@ public class JournalArticleFinderTest {
 			new LiferayIntegrationTestRule(),
 			SynchronousDestinationTestRule.INSTANCE,
 			new TransactionalTestRule(
-				Propagation.SUPPORTS, "com.liferay.journal.service"));
+				Propagation.REQUIRED, "com.liferay.journal.service"));
 
 	@Before
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
