@@ -144,4 +144,9 @@ public interface JournalServiceConfiguration {
 	)
 	public String journalArticleStorageType();
 
+	@Meta.AD(
+		deflt = "true", description = "fetch-latest-article-with-pagination",
+		required = false
+	)
+	public boolean fetchLatestArticleWithPagination();
 }

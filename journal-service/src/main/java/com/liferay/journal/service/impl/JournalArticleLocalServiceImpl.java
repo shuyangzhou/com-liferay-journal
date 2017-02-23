@@ -148,6 +148,7 @@ import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.PortletKeys;
+import com.liferay.portal.kernel.util.ReflectionUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
@@ -1590,8 +1591,34 @@ public class JournalArticleLocalServiceImpl
 				orderByComparator);
 		}
 
-		return journalArticlePersistence.fetchByG_A_ST_First(
-			groupId, articleId, status, orderByComparator);
+		boolean fetchLatestArticleWithPagination = true;
+
+		try {
+			JournalServiceConfiguration journalServiceConfiguration =
+				configurationProvider.getCompanyConfiguration(
+					JournalServiceConfiguration.class,
+					CompanyThreadLocal.getCompanyId());
+
+			fetchLatestArticleWithPagination =
+				journalServiceConfiguration.fetchLatestArticleWithPagination();
+		}
+		catch (ConfigurationException ce) {
+			ReflectionUtil.throwException(ce);
+		}
+
+		if (fetchLatestArticleWithPagination) {
+			return journalArticlePersistence.fetchByG_A_ST_First(
+				groupId, articleId, status, orderByComparator);
+		}
+
+		List<JournalArticle> journalArticles =
+			journalArticlePersistence.findByG_A_ST(groupId, articleId, status);
+
+		if (journalArticles.isEmpty()) {
+			return null;
+		}
+
+		return Collections.max(journalArticles, orderByComparator);
 	}
 
 	@Override
