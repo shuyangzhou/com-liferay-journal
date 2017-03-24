@@ -86,30 +86,31 @@ import javax.portlet.RenderResponse;
  */
 public class JournalContentDisplayContext {
 
-	public JournalContentDisplayContext(
+	public static JournalContentDisplayContext create(
 			PortletRequest portletRequest, PortletResponse portletResponse,
-			JournalContentPortletInstanceConfiguration
-				journalContentPortletInstanceConfiguration)
+			PortletDisplay portletDisplay)
 		throws PortalException {
 
-		_portletRequest = portletRequest;
-		_portletResponse = portletResponse;
-		_journalContentPortletInstanceConfiguration =
-			journalContentPortletInstanceConfiguration;
+		JournalContentDisplayContext journalContentDisplayContext =
+			(JournalContentDisplayContext)portletRequest.getAttribute(
+				JournalContentDisplayContext.class.getName());
 
-		if (Validator.isNull(getPortletResource()) && !isShowArticle()) {
+		if (journalContentDisplayContext == null) {
+			JournalContentPortletInstanceConfiguration
+				journalContentPortletInstanceConfiguration =
+					portletDisplay.getPortletInstanceConfiguration(
+						JournalContentPortletInstanceConfiguration.class);
+
+			journalContentDisplayContext = new JournalContentDisplayContext(
+				portletRequest, portletResponse,
+				journalContentPortletInstanceConfiguration);
+
 			portletRequest.setAttribute(
-				WebKeys.PORTLET_CONFIGURATOR_VISIBILITY, Boolean.TRUE);
+				JournalContentDisplayContext.class.getName(),
+				journalContentDisplayContext);
 		}
-		else if (isShowArticle() &&
-				 (portletResponse instanceof RenderResponse)) {
 
-			RenderResponse renderResponse = (RenderResponse)portletResponse;
-
-			JournalArticleDisplay articleDisplay = getArticleDisplay();
-
-			renderResponse.setTitle(articleDisplay.getTitle());
-		}
+		return journalContentDisplayContext;
 	}
 
 	public void clearCache() throws PortalException {
@@ -892,6 +893,32 @@ public class JournalContentDisplayContext {
 			portletDisplay.getId(), ActionKeys.CONFIGURATION);
 
 		return _showSelectArticleIcon;
+	}
+
+	private JournalContentDisplayContext(
+			PortletRequest portletRequest, PortletResponse portletResponse,
+			JournalContentPortletInstanceConfiguration
+				journalContentPortletInstanceConfiguration)
+		throws PortalException {
+
+		_portletRequest = portletRequest;
+		_portletResponse = portletResponse;
+		_journalContentPortletInstanceConfiguration =
+			journalContentPortletInstanceConfiguration;
+
+		if (Validator.isNull(getPortletResource()) && !isShowArticle()) {
+			portletRequest.setAttribute(
+				WebKeys.PORTLET_CONFIGURATOR_VISIBILITY, Boolean.TRUE);
+		}
+		else if (isShowArticle() &&
+				 (portletResponse instanceof RenderResponse)) {
+
+			RenderResponse renderResponse = (RenderResponse)portletResponse;
+
+			JournalArticleDisplay articleDisplay = getArticleDisplay();
+
+			renderResponse.setTitle(articleDisplay.getTitle());
+		}
 	}
 
 	private DDMTemplate _getDDMTemplate(String ddmTemplateKey) {
