@@ -132,12 +132,6 @@ public class JournalContentPortlet extends MVCPortlet {
 			}
 			catch (Exception e) {
 				renderRequest.removeAttribute(WebKeys.JOURNAL_ARTICLE);
-
-				articleDisplay = _journalContent.getDisplay(
-					articleGroupId, articleId, ddmTemplateKey, viewMode,
-					languageId, page,
-					new PortletRequestModel(renderRequest, renderResponse),
-					themeDisplay);
 			}
 		}
 
