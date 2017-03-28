@@ -118,15 +118,12 @@ public class JournalContentPortlet extends MVCPortlet {
 						WorkflowConstants.STATUS_ANY);
 				}
 
-				double version = article.getVersion();
-
 				if (Validator.isNull(ddmTemplateKey)) {
 					ddmTemplateKey = article.getDDMTemplateKey();
 				}
 
 				articleDisplay = _journalContent.getDisplay(
-					articleGroupId, articleId, version, ddmTemplateKey,
-					viewMode, languageId, page,
+					article, ddmTemplateKey, viewMode, languageId, page,
 					new PortletRequestModel(renderRequest, renderResponse),
 					themeDisplay);
 			}
