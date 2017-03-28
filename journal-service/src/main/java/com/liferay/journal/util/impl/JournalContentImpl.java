@@ -42,11 +42,13 @@ import com.liferay.portal.kernel.util.ReflectionUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import java.io.Serializable;
 
 import java.lang.reflect.Method;
 
+import java.util.Date;
 import java.util.Objects;
 
 import javax.portlet.RenderRequest;
@@ -208,7 +210,7 @@ public class JournalContentImpl
 
 		if ((articleDisplay == null) || !lifecycleRender) {
 			articleDisplay = getArticleDisplay(
-				groupId, articleId, ddmTemplateKey, viewMode, languageId, page,
+				article, ddmTemplateKey, viewMode, languageId, page,
 				portletRequestModel, themeDisplay);
 
 			if ((articleDisplay != null) && articleDisplay.isCacheable() &&
@@ -317,6 +319,42 @@ public class JournalContentImpl
 	@Override
 	public String getOSGiServiceIdentifier() {
 		return JournalContent.class.getName();
+	}
+
+	protected JournalArticleDisplay getArticleDisplay(
+		JournalArticle article, String ddmTemplateKey, String viewMode,
+		String languageId, int page, PortletRequestModel portletRequestModel,
+		ThemeDisplay themeDisplay) {
+
+		if (article.getStatus() != WorkflowConstants.STATUS_APPROVED) {
+			return null;
+		}
+
+		Date now = new Date();
+
+		Date displayDate = article.getDisplayDate();
+		Date expirationDate = article.getExpirationDate();
+
+		if (((displayDate != null) && displayDate.after(now)) ||
+			((expirationDate != null) && expirationDate.before(now))) {
+
+			return null;
+		}
+
+		try {
+			return _journalArticleLocalService.getArticleDisplay(
+				article, ddmTemplateKey, viewMode, languageId, page,
+				portletRequestModel, themeDisplay);
+		}
+		catch (Exception e) {
+			if (_log.isWarnEnabled()) {
+				_log.warn(
+					"Unable to get display for " + article + " " + languageId,
+					e);
+			}
+
+			return null;
+		}
 	}
 
 	protected JournalArticleDisplay getArticleDisplay(
