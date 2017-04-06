@@ -181,7 +181,6 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
@@ -440,8 +439,9 @@ public class JournalArticleLocalServiceImpl
 
 		// Article localization
 
-		_addArticleLocalizedFields(
-			user.getCompanyId(), article.getId(), titleMap, descriptionMap);
+		updateJournalArticleLocalizations(
+			article, _getLanguageIdLocalizationMap(titleMap),
+			_getLanguageIdLocalizationMap(descriptionMap));
 
 		// Resources
 
@@ -873,9 +873,9 @@ public class JournalArticleLocalServiceImpl
 			newTitleMap.put(locale, sb.toString());
 		}
 
-		_addArticleLocalizedFields(
-			newArticle.getCompanyId(), newArticle.getId(), newTitleMap,
-			oldArticle.getDescriptionMap());
+		updateJournalArticleLocalizations(
+			newArticle, _getLanguageIdLocalizationMap(newTitleMap),
+			_getLanguageIdLocalizationMap(oldArticle.getDescriptionMap()));
 
 		// Resources
 
@@ -5447,16 +5447,11 @@ public class JournalArticleLocalServiceImpl
 			article.setArticleId(articleId);
 			article.setVersion(version);
 			article.setSmallImageId(latestArticle.getSmallImageId());
+		}
 
-			_addArticleLocalizedFields(
-				article.getCompanyId(), article.getId(), titleMap,
-				descriptionMap);
-		}
-		else {
-			_updateArticleLocalizedFields(
-				article.getCompanyId(), article.getId(), titleMap,
-				descriptionMap);
-		}
+		updateJournalArticleLocalizations(
+			article, _getLanguageIdLocalizationMap(titleMap),
+			_getLanguageIdLocalizationMap(descriptionMap));
 
 		Locale locale = getArticleDefaultLocale(content);
 
@@ -5725,9 +5720,9 @@ public class JournalArticleLocalServiceImpl
 
 			// Article localization
 
-			_addArticleLocalizedFields(
-				article.getCompanyId(), article.getId(),
-				oldArticle.getTitleMap(), oldArticle.getDescriptionMap());
+			updateJournalArticleLocalizations(
+				article, oldArticle.getLanguageIdToTitleMap(),
+				oldArticle.getLanguageIdToDescriptionMap());
 
 			// Dynamic data mapping
 
@@ -5739,9 +5734,8 @@ public class JournalArticleLocalServiceImpl
 			article = oldArticle;
 		}
 
-		_updateArticleLocalizedFields(
-			article.getCompanyId(), article.getId(), title, description,
-			LocaleUtil.toLanguageId(locale));
+		updateJournalArticleLocalization(
+			article, LocaleUtil.toLanguageId(locale), title, description);
 
 		content = format(user, groupId, article, content);
 
@@ -8301,76 +8295,6 @@ public class JournalArticleLocalServiceImpl
 	protected com.liferay.portal.kernel.service.SubscriptionLocalService
 		subscriptionLocalService;
 
-	private List<JournalArticleLocalization> _addArticleLocalizedFields(
-			long companyId, long articlePK, Map<Locale, String> titleMap,
-			Map<Locale, String> descriptionMap)
-		throws PortalException {
-
-		Set<Locale> localeSet = new HashSet<>();
-
-		localeSet.addAll(titleMap.keySet());
-
-		if (descriptionMap != null) {
-			localeSet.addAll(descriptionMap.keySet());
-		}
-
-		List<JournalArticleLocalization> journalArticleLocalizations =
-			new ArrayList<>();
-
-		for (Locale locale : localeSet) {
-			String title = titleMap.get(locale);
-			String description = null;
-
-			if (descriptionMap != null) {
-				description = descriptionMap.get(locale);
-			}
-
-			if (Validator.isNull(title) && Validator.isNull(description)) {
-				continue;
-			}
-
-			JournalArticleLocalization journalArticleLocalization =
-				_addArticleLocalizedFields(
-					companyId, articlePK, title, description,
-					LocaleUtil.toLanguageId(locale));
-
-			journalArticleLocalizations.add(journalArticleLocalization);
-		}
-
-		return journalArticleLocalizations;
-	}
-
-	private JournalArticleLocalization _addArticleLocalizedFields(
-			long companyId, long articlePK, String title, String description,
-			String languageId)
-		throws PortalException {
-
-		JournalArticleLocalization journalArticleLocalization =
-			journalArticleLocalizationPersistence.fetchByA_L(
-				articlePK, languageId);
-
-		if (journalArticleLocalization == null) {
-			long journalArticleLocalizationId = counterLocalService.increment();
-
-			journalArticleLocalization =
-				journalArticleLocalizationPersistence.create(
-					journalArticleLocalizationId);
-
-			journalArticleLocalization.setCompanyId(companyId);
-			journalArticleLocalization.setArticlePK(articlePK);
-			journalArticleLocalization.setTitle(title);
-			journalArticleLocalization.setDescription(description);
-			journalArticleLocalization.setLanguageId(languageId);
-		}
-		else {
-			journalArticleLocalization.setTitle(title);
-			journalArticleLocalization.setDescription(description);
-		}
-
-		return journalArticleLocalizationPersistence.update(
-			journalArticleLocalization);
-	}
-
 	private long _getArticleCheckInterval() throws PortalException {
 		long companyId = CompanyThreadLocal.getCompanyId();
 
@@ -8379,6 +8303,23 @@ public class JournalArticleLocalServiceImpl
 				JournalServiceConfiguration.class, companyId);
 
 		return journalServiceConfiguration.checkInterval();
+	}
+
+	private Map<String, String> _getLanguageIdLocalizationMap(
+		Map<Locale, String> map) {
+
+		if (map == null) {
+			return Collections.emptyMap();
+		}
+
+		Map<String, String> localizationsMap = new HashMap<>();
+
+		for (Map.Entry<Locale, String> entry : map.entrySet()) {
+			localizationsMap.put(
+				LanguageUtil.getLanguageId(entry.getKey()), entry.getValue());
+		}
+
+		return localizationsMap;
 	}
 
 	private int _getUniqueUrlTitleCount(
@@ -8406,54 +8347,6 @@ public class JournalArticleLocalServiceImpl
 				urlTitle = prefix + suffix;
 			}
 		}
-	}
-
-	private List<JournalArticleLocalization> _updateArticleLocalizedFields(
-			long companyId, long articleId, Map<Locale, String> titleMap,
-			Map<Locale, String> descriptionMap)
-		throws PortalException {
-
-		List<JournalArticleLocalization> oldJournalArticleLocalizations =
-			new ArrayList<>(
-				journalArticleLocalizationPersistence.findByArticlePK(
-					articleId));
-
-		List<JournalArticleLocalization> newJournalArticleLocalizations =
-			_addArticleLocalizedFields(
-				companyId, articleId, titleMap, descriptionMap);
-
-		oldJournalArticleLocalizations.removeAll(
-			newJournalArticleLocalizations);
-
-		for (JournalArticleLocalization oldJournalArticleLocalization :
-				oldJournalArticleLocalizations) {
-
-			journalArticleLocalizationPersistence.remove(
-				oldJournalArticleLocalization);
-		}
-
-		return newJournalArticleLocalizations;
-	}
-
-	private JournalArticleLocalization _updateArticleLocalizedFields(
-			long companyId, long articleId, String title, String description,
-			String languageId)
-		throws PortalException {
-
-		JournalArticleLocalization journalArticleLocalization =
-			journalArticleLocalizationPersistence.fetchByA_L(
-				articleId, languageId);
-
-		if (journalArticleLocalization == null) {
-			return _addArticleLocalizedFields(
-				companyId, articleId, title, description, languageId);
-		}
-
-		journalArticleLocalization.setTitle(title);
-		journalArticleLocalization.setDescription(description);
-
-		return journalArticleLocalizationPersistence.update(
-			journalArticleLocalization);
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
