@@ -71,7 +71,7 @@
 				(JournalArticle.version < tempJournalArticle.version)
 			LEFT JOIN JournalArticleLocalization ON
 				(JournalArticle.companyId = JournalArticleLocalization.companyId) AND
-				(JournalArticle.id_ = JournalArticleLocalization.articlePK)
+				(JournalArticle.id_ = JournalArticleLocalization.journalArticlePK)
 			WHERE
 				(JournalArticle.companyId = ?) AND
 				(JournalArticle.groupId = ?) AND
@@ -236,7 +236,7 @@
 				(JournalArticle.version < tempJournalArticle.version)
 			LEFT JOIN
 				(SELECT DISTINCT
-					JournalArticleLocalization.companyId, JournalArticleLocalization.articlePK
+					JournalArticleLocalization.companyId, JournalArticleLocalization.journalArticlePK
 				FROM
 					JournalArticleLocalization
 				WHERE
@@ -245,7 +245,7 @@
 				) tempJournalArticleLocalization
 				ON
 					(JournalArticle.companyId = tempJournalArticleLocalization.companyId) AND
-					(JournalArticle.id_ = tempJournalArticleLocalization.articlePK)
+					(JournalArticle.id_ = tempJournalArticleLocalization.journalArticlePK)
 			WHERE
 				(JournalArticle.companyId = ?) AND
 				(JournalArticle.groupId = ?) AND
@@ -373,7 +373,7 @@
 						(TEMP_TABLE.version = JournalArticle.version)
 				LEFT JOIN
 					JournalArticleLocalization ON
-						(JournalArticle.id_ = JournalArticleLocalization.articlePK) AND
+						(JournalArticle.id_ = JournalArticleLocalization.journalArticlePK) AND
 						(JournalArticleLocalization.languageId = ?)
 		]]>
 	</sql>
