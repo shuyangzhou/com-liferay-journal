@@ -22,8 +22,10 @@ import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 
 import com.liferay.journal.model.JournalArticle;
+import com.liferay.journal.model.JournalArticleLocalization;
 import com.liferay.journal.model.JournalArticleModel;
 import com.liferay.journal.model.JournalArticleSoap;
+import com.liferay.journal.service.JournalArticleLocalServiceUtil;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.NoSuchModelException;
@@ -37,6 +39,7 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -53,6 +56,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 /**
  * The base model implementation for the JournalArticle service. Represents a row in the &quot;JournalArticle&quot; database table, with each column mapped to a property of this class.
@@ -97,7 +101,6 @@ public class JournalArticleModelImpl extends BaseModelImpl<JournalArticle>
 			{ "content", Types.CLOB },
 			{ "DDMStructureKey", Types.VARCHAR },
 			{ "DDMTemplateKey", Types.VARCHAR },
-			{ "defaultLanguageId", Types.VARCHAR },
 			{ "layoutUuid", Types.VARCHAR },
 			{ "displayDate", Types.TIMESTAMP },
 			{ "expirationDate", Types.TIMESTAMP },
@@ -110,7 +113,8 @@ public class JournalArticleModelImpl extends BaseModelImpl<JournalArticle>
 			{ "status", Types.INTEGER },
 			{ "statusByUserId", Types.BIGINT },
 			{ "statusByUserName", Types.VARCHAR },
-			{ "statusDate", Types.TIMESTAMP }
+			{ "statusDate", Types.TIMESTAMP },
+			{ "defaultLanguageId", Types.VARCHAR }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -134,7 +138,6 @@ public class JournalArticleModelImpl extends BaseModelImpl<JournalArticle>
 		TABLE_COLUMNS_MAP.put("content", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("DDMStructureKey", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("DDMTemplateKey", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("defaultLanguageId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("layoutUuid", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("displayDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("expirationDate", Types.TIMESTAMP);
@@ -148,9 +151,10 @@ public class JournalArticleModelImpl extends BaseModelImpl<JournalArticle>
 		TABLE_COLUMNS_MAP.put("statusByUserId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("statusByUserName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("statusDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("defaultLanguageId", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table JournalArticle (uuid_ VARCHAR(75) null,id_ LONG not null primary key,resourcePrimKey LONG,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,folderId LONG,classNameId LONG,classPK LONG,treePath STRING null,articleId VARCHAR(75) null,version DOUBLE,urlTitle VARCHAR(150) null,content TEXT null,DDMStructureKey VARCHAR(75) null,DDMTemplateKey VARCHAR(75) null,defaultLanguageId VARCHAR(75) null,layoutUuid VARCHAR(75) null,displayDate DATE null,expirationDate DATE null,reviewDate DATE null,indexable BOOLEAN,smallImage BOOLEAN,smallImageId LONG,smallImageURL STRING null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null)";
+	public static final String TABLE_SQL_CREATE = "create table JournalArticle (uuid_ VARCHAR(75) null,id_ LONG not null primary key,resourcePrimKey LONG,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,folderId LONG,classNameId LONG,classPK LONG,treePath STRING null,articleId VARCHAR(75) null,version DOUBLE,urlTitle VARCHAR(150) null,content TEXT null,DDMStructureKey VARCHAR(75) null,DDMTemplateKey VARCHAR(75) null,layoutUuid VARCHAR(75) null,displayDate DATE null,expirationDate DATE null,reviewDate DATE null,indexable BOOLEAN,smallImage BOOLEAN,smallImageId LONG,smallImageURL STRING null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,defaultLanguageId VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table JournalArticle";
 	public static final String ORDER_BY_JPQL = " ORDER BY journalArticle.articleId ASC, journalArticle.version DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY JournalArticle.articleId ASC, JournalArticle.version DESC";
@@ -217,7 +221,6 @@ public class JournalArticleModelImpl extends BaseModelImpl<JournalArticle>
 		model.setContent(soapModel.getContent());
 		model.setDDMStructureKey(soapModel.getDDMStructureKey());
 		model.setDDMTemplateKey(soapModel.getDDMTemplateKey());
-		model.setDefaultLanguageId(soapModel.getDefaultLanguageId());
 		model.setLayoutUuid(soapModel.getLayoutUuid());
 		model.setDisplayDate(soapModel.getDisplayDate());
 		model.setExpirationDate(soapModel.getExpirationDate());
@@ -231,6 +234,7 @@ public class JournalArticleModelImpl extends BaseModelImpl<JournalArticle>
 		model.setStatusByUserId(soapModel.getStatusByUserId());
 		model.setStatusByUserName(soapModel.getStatusByUserName());
 		model.setStatusDate(soapModel.getStatusDate());
+		model.setDefaultLanguageId(soapModel.getDefaultLanguageId());
 
 		return model;
 	}
@@ -314,7 +318,6 @@ public class JournalArticleModelImpl extends BaseModelImpl<JournalArticle>
 		attributes.put("content", getContent());
 		attributes.put("DDMStructureKey", getDDMStructureKey());
 		attributes.put("DDMTemplateKey", getDDMTemplateKey());
-		attributes.put("defaultLanguageId", getDefaultLanguageId());
 		attributes.put("layoutUuid", getLayoutUuid());
 		attributes.put("displayDate", getDisplayDate());
 		attributes.put("expirationDate", getExpirationDate());
@@ -328,6 +331,7 @@ public class JournalArticleModelImpl extends BaseModelImpl<JournalArticle>
 		attributes.put("statusByUserId", getStatusByUserId());
 		attributes.put("statusByUserName", getStatusByUserName());
 		attributes.put("statusDate", getStatusDate());
+		attributes.put("defaultLanguageId", getDefaultLanguageId());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -451,12 +455,6 @@ public class JournalArticleModelImpl extends BaseModelImpl<JournalArticle>
 			setDDMTemplateKey(DDMTemplateKey);
 		}
 
-		String defaultLanguageId = (String)attributes.get("defaultLanguageId");
-
-		if (defaultLanguageId != null) {
-			setDefaultLanguageId(defaultLanguageId);
-		}
-
 		String layoutUuid = (String)attributes.get("layoutUuid");
 
 		if (layoutUuid != null) {
@@ -534,6 +532,122 @@ public class JournalArticleModelImpl extends BaseModelImpl<JournalArticle>
 		if (statusDate != null) {
 			setStatusDate(statusDate);
 		}
+
+		String defaultLanguageId = (String)attributes.get("defaultLanguageId");
+
+		if (defaultLanguageId != null) {
+			setDefaultLanguageId(defaultLanguageId);
+		}
+	}
+
+	@Override
+	public String getTitle() {
+		return getTitle(getDefaultLanguageId(), false);
+	}
+
+	@Override
+	public String getTitle(String languageId) {
+		return getTitle(languageId, true);
+	}
+
+	@Override
+	public String getTitle(String languageId, boolean useDefault) {
+		if (useDefault) {
+			return LocalizationUtil.getLocalization(new Function<String, String>() {
+					@Override
+					public String apply(String languageId) {
+						return _getTitle(languageId);
+					}
+				}, languageId, getDefaultLanguageId());
+		}
+
+		return _getTitle(languageId);
+	}
+
+	@Override
+	public String getTitleMapAsXML() {
+		return LocalizationUtil.getXml(getLanguageIdToTitleMap(),
+			getDefaultLanguageId(), "Title");
+	}
+
+	@Override
+	public Map<String, String> getLanguageIdToTitleMap() {
+		Map<String, String> languageIdToTitleMap = new HashMap<String, String>();
+
+		List<JournalArticleLocalization> journalArticleLocalizations = JournalArticleLocalServiceUtil.getJournalArticleLocalizations(getPrimaryKey());
+
+		for (JournalArticleLocalization journalArticleLocalization : journalArticleLocalizations) {
+			languageIdToTitleMap.put(journalArticleLocalization.getLanguageId(),
+				journalArticleLocalization.getTitle());
+		}
+
+		return languageIdToTitleMap;
+	}
+
+	private String _getTitle(String languageId) {
+		JournalArticleLocalization journalArticleLocalization = JournalArticleLocalServiceUtil.fetchJournalArticleLocalization(getPrimaryKey(),
+				languageId);
+
+		if (journalArticleLocalization == null) {
+			return StringPool.BLANK;
+		}
+
+		return journalArticleLocalization.getTitle();
+	}
+
+	@Override
+	public String getDescription() {
+		return getDescription(getDefaultLanguageId(), false);
+	}
+
+	@Override
+	public String getDescription(String languageId) {
+		return getDescription(languageId, true);
+	}
+
+	@Override
+	public String getDescription(String languageId, boolean useDefault) {
+		if (useDefault) {
+			return LocalizationUtil.getLocalization(new Function<String, String>() {
+					@Override
+					public String apply(String languageId) {
+						return _getDescription(languageId);
+					}
+				}, languageId, getDefaultLanguageId());
+		}
+
+		return _getDescription(languageId);
+	}
+
+	@Override
+	public String getDescriptionMapAsXML() {
+		return LocalizationUtil.getXml(getLanguageIdToDescriptionMap(),
+			getDefaultLanguageId(), "Description");
+	}
+
+	@Override
+	public Map<String, String> getLanguageIdToDescriptionMap() {
+		Map<String, String> languageIdToDescriptionMap = new HashMap<String, String>();
+
+		List<JournalArticleLocalization> journalArticleLocalizations = JournalArticleLocalServiceUtil.getJournalArticleLocalizations(getPrimaryKey());
+
+		for (JournalArticleLocalization journalArticleLocalization : journalArticleLocalizations) {
+			languageIdToDescriptionMap.put(journalArticleLocalization.getLanguageId(),
+				journalArticleLocalization.getDescription());
+		}
+
+		return languageIdToDescriptionMap;
+	}
+
+	private String _getDescription(String languageId) {
+		JournalArticleLocalization journalArticleLocalization = JournalArticleLocalServiceUtil.fetchJournalArticleLocalization(getPrimaryKey(),
+				languageId);
+
+		if (journalArticleLocalization == null) {
+			return StringPool.BLANK;
+		}
+
+		return journalArticleLocalization.getDescription();
 	}
 
 	@JSON
@@ -978,22 +1092,6 @@ public class JournalArticleModelImpl extends BaseModelImpl<JournalArticle>
 
 	@JSON
 	@Override
-	public String getDefaultLanguageId() {
-		if (_defaultLanguageId == null) {
-			return StringPool.BLANK;
-		}
-		else {
-			return _defaultLanguageId;
-		}
-	}
-
-	@Override
-	public void setDefaultLanguageId(String defaultLanguageId) {
-		_defaultLanguageId = defaultLanguageId;
-	}
-
-	@JSON
-	@Override
 	public String getLayoutUuid() {
 		if (_layoutUuid == null) {
 			return StringPool.BLANK;
@@ -1232,6 +1330,22 @@ public class JournalArticleModelImpl extends BaseModelImpl<JournalArticle>
 	@Override
 	public void setStatusDate(Date statusDate) {
 		_statusDate = statusDate;
+	}
+
+	@JSON(include = false)
+	@Override
+	public String getDefaultLanguageId() {
+		if (_defaultLanguageId == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _defaultLanguageId;
+		}
+	}
+
+	@Override
+	public void setDefaultLanguageId(String defaultLanguageId) {
+		_defaultLanguageId = defaultLanguageId;
 	}
 
 	public com.liferay.portal.kernel.xml.Document getDocument() {
@@ -1508,7 +1622,6 @@ public class JournalArticleModelImpl extends BaseModelImpl<JournalArticle>
 		journalArticleImpl.setContent(getContent());
 		journalArticleImpl.setDDMStructureKey(getDDMStructureKey());
 		journalArticleImpl.setDDMTemplateKey(getDDMTemplateKey());
-		journalArticleImpl.setDefaultLanguageId(getDefaultLanguageId());
 		journalArticleImpl.setLayoutUuid(getLayoutUuid());
 		journalArticleImpl.setDisplayDate(getDisplayDate());
 		journalArticleImpl.setExpirationDate(getExpirationDate());
@@ -1522,6 +1635,7 @@ public class JournalArticleModelImpl extends BaseModelImpl<JournalArticle>
 		journalArticleImpl.setStatusByUserId(getStatusByUserId());
 		journalArticleImpl.setStatusByUserName(getStatusByUserName());
 		journalArticleImpl.setStatusDate(getStatusDate());
+		journalArticleImpl.setDefaultLanguageId(getDefaultLanguageId());
 
 		journalArticleImpl.resetOriginalValues();
 
@@ -1767,14 +1881,6 @@ public class JournalArticleModelImpl extends BaseModelImpl<JournalArticle>
 			journalArticleCacheModel.DDMTemplateKey = null;
 		}
 
-		journalArticleCacheModel.defaultLanguageId = getDefaultLanguageId();
-
-		String defaultLanguageId = journalArticleCacheModel.defaultLanguageId;
-
-		if ((defaultLanguageId != null) && (defaultLanguageId.length() == 0)) {
-			journalArticleCacheModel.defaultLanguageId = null;
-		}
-
 		journalArticleCacheModel.layoutUuid = getLayoutUuid();
 
 		String layoutUuid = journalArticleCacheModel.layoutUuid;
@@ -1854,6 +1960,14 @@ public class JournalArticleModelImpl extends BaseModelImpl<JournalArticle>
 			journalArticleCacheModel.statusDate = Long.MIN_VALUE;
 		}
 
+		journalArticleCacheModel.defaultLanguageId = getDefaultLanguageId();
+
+		String defaultLanguageId = journalArticleCacheModel.defaultLanguageId;
+
+		if ((defaultLanguageId != null) && (defaultLanguageId.length() == 0)) {
+			journalArticleCacheModel.defaultLanguageId = null;
+		}
+
 		journalArticleCacheModel._document = getDocument();
 
 		return journalArticleCacheModel;
@@ -1901,8 +2015,6 @@ public class JournalArticleModelImpl extends BaseModelImpl<JournalArticle>
 		sb.append(getDDMStructureKey());
 		sb.append(", DDMTemplateKey=");
 		sb.append(getDDMTemplateKey());
-		sb.append(", defaultLanguageId=");
-		sb.append(getDefaultLanguageId());
 		sb.append(", layoutUuid=");
 		sb.append(getLayoutUuid());
 		sb.append(", displayDate=");
@@ -1929,6 +2041,8 @@ public class JournalArticleModelImpl extends BaseModelImpl<JournalArticle>
 		sb.append(getStatusByUserName());
 		sb.append(", statusDate=");
 		sb.append(getStatusDate());
+		sb.append(", defaultLanguageId=");
+		sb.append(getDefaultLanguageId());
 		sb.append("}");
 
 		return sb.toString();
@@ -2019,10 +2133,6 @@ public class JournalArticleModelImpl extends BaseModelImpl<JournalArticle>
 		sb.append(getDDMTemplateKey());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>defaultLanguageId</column-name><column-value><![CDATA[");
-		sb.append(getDefaultLanguageId());
-		sb.append("]]></column-value></column>");
-		sb.append(
 			"<column><column-name>layoutUuid</column-name><column-value><![CDATA[");
 		sb.append(getLayoutUuid());
 		sb.append("]]></column-value></column>");
@@ -2073,6 +2183,10 @@ public class JournalArticleModelImpl extends BaseModelImpl<JournalArticle>
 		sb.append(
 			"<column><column-name>statusDate</column-name><column-value><![CDATA[");
 		sb.append(getStatusDate());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>defaultLanguageId</column-name><column-value><![CDATA[");
+		sb.append(getDefaultLanguageId());
 		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
@@ -2125,7 +2239,6 @@ public class JournalArticleModelImpl extends BaseModelImpl<JournalArticle>
 	private String _originalDDMStructureKey;
 	private String _DDMTemplateKey;
 	private String _originalDDMTemplateKey;
-	private String _defaultLanguageId;
 	private String _layoutUuid;
 	private String _originalLayoutUuid;
 	private Date _displayDate;
@@ -2147,6 +2260,7 @@ public class JournalArticleModelImpl extends BaseModelImpl<JournalArticle>
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;
+	private String _defaultLanguageId;
 	private long _columnBitmask;
 	private JournalArticle _escapedModel;
 }

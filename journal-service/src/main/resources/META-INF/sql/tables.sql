@@ -18,7 +18,6 @@ create table JournalArticle (
 	content TEXT null,
 	DDMStructureKey VARCHAR(75) null,
 	DDMTemplateKey VARCHAR(75) null,
-	defaultLanguageId VARCHAR(75) null,
 	layoutUuid VARCHAR(75) null,
 	displayDate DATE null,
 	expirationDate DATE null,
@@ -31,16 +30,18 @@ create table JournalArticle (
 	status INTEGER,
 	statusByUserId LONG,
 	statusByUserName VARCHAR(75) null,
-	statusDate DATE null
+	statusDate DATE null,
+	defaultLanguageId VARCHAR(75) null
 );
 
 create table JournalArticleLocalization (
-	articleLocalizationId LONG not null primary key,
+	mvccVersion LONG default 0 not null,
+	journalArticleLocalizationId LONG not null primary key,
 	companyId LONG,
-	articlePK LONG,
+	journalArticlePK LONG,
+	languageId VARCHAR(75) null,
 	title VARCHAR(400) null,
-	description STRING null,
-	languageId VARCHAR(75) null
+	description STRING null
 );
 
 create table JournalArticleResource (

@@ -116,235 +116,243 @@ public class JournalArticleLocalizationUtil {
 	}
 
 	/**
-	* Returns all the journal article localizations where articlePK = &#63;.
+	* Returns all the journal article localizations where journalArticlePK = &#63;.
 	*
-	* @param articlePK the article pk
+	* @param journalArticlePK the journal article pk
 	* @return the matching journal article localizations
 	*/
-	public static List<JournalArticleLocalization> findByArticlePK(
-		long articlePK) {
-		return getPersistence().findByArticlePK(articlePK);
+	public static List<JournalArticleLocalization> findByJournalArticlePK(
+		long journalArticlePK) {
+		return getPersistence().findByJournalArticlePK(journalArticlePK);
 	}
 
 	/**
-	* Returns a range of all the journal article localizations where articlePK = &#63;.
+	* Returns a range of all the journal article localizations where journalArticlePK = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link JournalArticleLocalizationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	* </p>
 	*
-	* @param articlePK the article pk
+	* @param journalArticlePK the journal article pk
 	* @param start the lower bound of the range of journal article localizations
 	* @param end the upper bound of the range of journal article localizations (not inclusive)
 	* @return the range of matching journal article localizations
 	*/
-	public static List<JournalArticleLocalization> findByArticlePK(
-		long articlePK, int start, int end) {
-		return getPersistence().findByArticlePK(articlePK, start, end);
+	public static List<JournalArticleLocalization> findByJournalArticlePK(
+		long journalArticlePK, int start, int end) {
+		return getPersistence()
+				   .findByJournalArticlePK(journalArticlePK, start, end);
 	}
 
 	/**
-	* Returns an ordered range of all the journal article localizations where articlePK = &#63;.
+	* Returns an ordered range of all the journal article localizations where journalArticlePK = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link JournalArticleLocalizationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	* </p>
 	*
-	* @param articlePK the article pk
+	* @param journalArticlePK the journal article pk
 	* @param start the lower bound of the range of journal article localizations
 	* @param end the upper bound of the range of journal article localizations (not inclusive)
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of matching journal article localizations
 	*/
-	public static List<JournalArticleLocalization> findByArticlePK(
-		long articlePK, int start, int end,
+	public static List<JournalArticleLocalization> findByJournalArticlePK(
+		long journalArticlePK, int start, int end,
 		OrderByComparator<JournalArticleLocalization> orderByComparator) {
 		return getPersistence()
-				   .findByArticlePK(articlePK, start, end, orderByComparator);
+				   .findByJournalArticlePK(journalArticlePK, start, end,
+			orderByComparator);
 	}
 
 	/**
-	* Returns an ordered range of all the journal article localizations where articlePK = &#63;.
+	* Returns an ordered range of all the journal article localizations where journalArticlePK = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link JournalArticleLocalizationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	* </p>
 	*
-	* @param articlePK the article pk
+	* @param journalArticlePK the journal article pk
 	* @param start the lower bound of the range of journal article localizations
 	* @param end the upper bound of the range of journal article localizations (not inclusive)
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @param retrieveFromCache whether to retrieve from the finder cache
 	* @return the ordered range of matching journal article localizations
 	*/
-	public static List<JournalArticleLocalization> findByArticlePK(
-		long articlePK, int start, int end,
+	public static List<JournalArticleLocalization> findByJournalArticlePK(
+		long journalArticlePK, int start, int end,
 		OrderByComparator<JournalArticleLocalization> orderByComparator,
 		boolean retrieveFromCache) {
 		return getPersistence()
-				   .findByArticlePK(articlePK, start, end, orderByComparator,
-			retrieveFromCache);
+				   .findByJournalArticlePK(journalArticlePK, start, end,
+			orderByComparator, retrieveFromCache);
 	}
 
 	/**
-	* Returns the first journal article localization in the ordered set where articlePK = &#63;.
+	* Returns the first journal article localization in the ordered set where journalArticlePK = &#63;.
 	*
-	* @param articlePK the article pk
+	* @param journalArticlePK the journal article pk
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching journal article localization
 	* @throws NoSuchArticleLocalizationException if a matching journal article localization could not be found
 	*/
-	public static JournalArticleLocalization findByArticlePK_First(
-		long articlePK,
+	public static JournalArticleLocalization findByJournalArticlePK_First(
+		long journalArticlePK,
 		OrderByComparator<JournalArticleLocalization> orderByComparator)
 		throws com.liferay.journal.exception.NoSuchArticleLocalizationException {
 		return getPersistence()
-				   .findByArticlePK_First(articlePK, orderByComparator);
+				   .findByJournalArticlePK_First(journalArticlePK,
+			orderByComparator);
 	}
 
 	/**
-	* Returns the first journal article localization in the ordered set where articlePK = &#63;.
+	* Returns the first journal article localization in the ordered set where journalArticlePK = &#63;.
 	*
-	* @param articlePK the article pk
+	* @param journalArticlePK the journal article pk
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching journal article localization, or <code>null</code> if a matching journal article localization could not be found
 	*/
-	public static JournalArticleLocalization fetchByArticlePK_First(
-		long articlePK,
+	public static JournalArticleLocalization fetchByJournalArticlePK_First(
+		long journalArticlePK,
 		OrderByComparator<JournalArticleLocalization> orderByComparator) {
 		return getPersistence()
-				   .fetchByArticlePK_First(articlePK, orderByComparator);
+				   .fetchByJournalArticlePK_First(journalArticlePK,
+			orderByComparator);
 	}
 
 	/**
-	* Returns the last journal article localization in the ordered set where articlePK = &#63;.
+	* Returns the last journal article localization in the ordered set where journalArticlePK = &#63;.
 	*
-	* @param articlePK the article pk
+	* @param journalArticlePK the journal article pk
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching journal article localization
 	* @throws NoSuchArticleLocalizationException if a matching journal article localization could not be found
 	*/
-	public static JournalArticleLocalization findByArticlePK_Last(
-		long articlePK,
+	public static JournalArticleLocalization findByJournalArticlePK_Last(
+		long journalArticlePK,
 		OrderByComparator<JournalArticleLocalization> orderByComparator)
 		throws com.liferay.journal.exception.NoSuchArticleLocalizationException {
 		return getPersistence()
-				   .findByArticlePK_Last(articlePK, orderByComparator);
+				   .findByJournalArticlePK_Last(journalArticlePK,
+			orderByComparator);
 	}
 
 	/**
-	* Returns the last journal article localization in the ordered set where articlePK = &#63;.
+	* Returns the last journal article localization in the ordered set where journalArticlePK = &#63;.
 	*
-	* @param articlePK the article pk
+	* @param journalArticlePK the journal article pk
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching journal article localization, or <code>null</code> if a matching journal article localization could not be found
 	*/
-	public static JournalArticleLocalization fetchByArticlePK_Last(
-		long articlePK,
+	public static JournalArticleLocalization fetchByJournalArticlePK_Last(
+		long journalArticlePK,
 		OrderByComparator<JournalArticleLocalization> orderByComparator) {
 		return getPersistence()
-				   .fetchByArticlePK_Last(articlePK, orderByComparator);
+				   .fetchByJournalArticlePK_Last(journalArticlePK,
+			orderByComparator);
 	}
 
 	/**
-	* Returns the journal article localizations before and after the current journal article localization in the ordered set where articlePK = &#63;.
+	* Returns the journal article localizations before and after the current journal article localization in the ordered set where journalArticlePK = &#63;.
 	*
-	* @param articleLocalizationId the primary key of the current journal article localization
-	* @param articlePK the article pk
+	* @param journalArticleLocalizationId the primary key of the current journal article localization
+	* @param journalArticlePK the journal article pk
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next journal article localization
 	* @throws NoSuchArticleLocalizationException if a journal article localization with the primary key could not be found
 	*/
-	public static JournalArticleLocalization[] findByArticlePK_PrevAndNext(
-		long articleLocalizationId, long articlePK,
+	public static JournalArticleLocalization[] findByJournalArticlePK_PrevAndNext(
+		long journalArticleLocalizationId, long journalArticlePK,
 		OrderByComparator<JournalArticleLocalization> orderByComparator)
 		throws com.liferay.journal.exception.NoSuchArticleLocalizationException {
 		return getPersistence()
-				   .findByArticlePK_PrevAndNext(articleLocalizationId,
-			articlePK, orderByComparator);
+				   .findByJournalArticlePK_PrevAndNext(journalArticleLocalizationId,
+			journalArticlePK, orderByComparator);
 	}
 
 	/**
-	* Removes all the journal article localizations where articlePK = &#63; from the database.
+	* Removes all the journal article localizations where journalArticlePK = &#63; from the database.
 	*
-	* @param articlePK the article pk
+	* @param journalArticlePK the journal article pk
 	*/
-	public static void removeByArticlePK(long articlePK) {
-		getPersistence().removeByArticlePK(articlePK);
+	public static void removeByJournalArticlePK(long journalArticlePK) {
+		getPersistence().removeByJournalArticlePK(journalArticlePK);
 	}
 
 	/**
-	* Returns the number of journal article localizations where articlePK = &#63;.
+	* Returns the number of journal article localizations where journalArticlePK = &#63;.
 	*
-	* @param articlePK the article pk
+	* @param journalArticlePK the journal article pk
 	* @return the number of matching journal article localizations
 	*/
-	public static int countByArticlePK(long articlePK) {
-		return getPersistence().countByArticlePK(articlePK);
+	public static int countByJournalArticlePK(long journalArticlePK) {
+		return getPersistence().countByJournalArticlePK(journalArticlePK);
 	}
 
 	/**
-	* Returns the journal article localization where articlePK = &#63; and languageId = &#63; or throws a {@link NoSuchArticleLocalizationException} if it could not be found.
+	* Returns the journal article localization where journalArticlePK = &#63; and languageId = &#63; or throws a {@link NoSuchArticleLocalizationException} if it could not be found.
 	*
-	* @param articlePK the article pk
+	* @param journalArticlePK the journal article pk
 	* @param languageId the language ID
 	* @return the matching journal article localization
 	* @throws NoSuchArticleLocalizationException if a matching journal article localization could not be found
 	*/
-	public static JournalArticleLocalization findByA_L(long articlePK,
+	public static JournalArticleLocalization findByJA_L(long journalArticlePK,
 		java.lang.String languageId)
 		throws com.liferay.journal.exception.NoSuchArticleLocalizationException {
-		return getPersistence().findByA_L(articlePK, languageId);
+		return getPersistence().findByJA_L(journalArticlePK, languageId);
 	}
 
 	/**
-	* Returns the journal article localization where articlePK = &#63; and languageId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	* Returns the journal article localization where journalArticlePK = &#63; and languageId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
 	*
-	* @param articlePK the article pk
+	* @param journalArticlePK the journal article pk
 	* @param languageId the language ID
 	* @return the matching journal article localization, or <code>null</code> if a matching journal article localization could not be found
 	*/
-	public static JournalArticleLocalization fetchByA_L(long articlePK,
-		java.lang.String languageId) {
-		return getPersistence().fetchByA_L(articlePK, languageId);
+	public static JournalArticleLocalization fetchByJA_L(
+		long journalArticlePK, java.lang.String languageId) {
+		return getPersistence().fetchByJA_L(journalArticlePK, languageId);
 	}
 
 	/**
-	* Returns the journal article localization where articlePK = &#63; and languageId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	* Returns the journal article localization where journalArticlePK = &#63; and languageId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
 	*
-	* @param articlePK the article pk
+	* @param journalArticlePK the journal article pk
 	* @param languageId the language ID
 	* @param retrieveFromCache whether to retrieve from the finder cache
 	* @return the matching journal article localization, or <code>null</code> if a matching journal article localization could not be found
 	*/
-	public static JournalArticleLocalization fetchByA_L(long articlePK,
-		java.lang.String languageId, boolean retrieveFromCache) {
+	public static JournalArticleLocalization fetchByJA_L(
+		long journalArticlePK, java.lang.String languageId,
+		boolean retrieveFromCache) {
 		return getPersistence()
-				   .fetchByA_L(articlePK, languageId, retrieveFromCache);
+				   .fetchByJA_L(journalArticlePK, languageId, retrieveFromCache);
 	}
 
 	/**
-	* Removes the journal article localization where articlePK = &#63; and languageId = &#63; from the database.
+	* Removes the journal article localization where journalArticlePK = &#63; and languageId = &#63; from the database.
 	*
-	* @param articlePK the article pk
+	* @param journalArticlePK the journal article pk
 	* @param languageId the language ID
 	* @return the journal article localization that was removed
 	*/
-	public static JournalArticleLocalization removeByA_L(long articlePK,
-		java.lang.String languageId)
+	public static JournalArticleLocalization removeByJA_L(
+		long journalArticlePK, java.lang.String languageId)
 		throws com.liferay.journal.exception.NoSuchArticleLocalizationException {
-		return getPersistence().removeByA_L(articlePK, languageId);
+		return getPersistence().removeByJA_L(journalArticlePK, languageId);
 	}
 
 	/**
-	* Returns the number of journal article localizations where articlePK = &#63; and languageId = &#63;.
+	* Returns the number of journal article localizations where journalArticlePK = &#63; and languageId = &#63;.
 	*
-	* @param articlePK the article pk
+	* @param journalArticlePK the journal article pk
 	* @param languageId the language ID
 	* @return the number of matching journal article localizations
 	*/
-	public static int countByA_L(long articlePK, java.lang.String languageId) {
-		return getPersistence().countByA_L(articlePK, languageId);
+	public static int countByJA_L(long journalArticlePK,
+		java.lang.String languageId) {
+		return getPersistence().countByJA_L(journalArticlePK, languageId);
 	}
 
 	/**
@@ -370,23 +378,25 @@ public class JournalArticleLocalizationUtil {
 	/**
 	* Creates a new journal article localization with the primary key. Does not add the journal article localization to the database.
 	*
-	* @param articleLocalizationId the primary key for the new journal article localization
+	* @param journalArticleLocalizationId the primary key for the new journal article localization
 	* @return the new journal article localization
 	*/
-	public static JournalArticleLocalization create(long articleLocalizationId) {
-		return getPersistence().create(articleLocalizationId);
+	public static JournalArticleLocalization create(
+		long journalArticleLocalizationId) {
+		return getPersistence().create(journalArticleLocalizationId);
 	}
 
 	/**
 	* Removes the journal article localization with the primary key from the database. Also notifies the appropriate model listeners.
 	*
-	* @param articleLocalizationId the primary key of the journal article localization
+	* @param journalArticleLocalizationId the primary key of the journal article localization
 	* @return the journal article localization that was removed
 	* @throws NoSuchArticleLocalizationException if a journal article localization with the primary key could not be found
 	*/
-	public static JournalArticleLocalization remove(long articleLocalizationId)
+	public static JournalArticleLocalization remove(
+		long journalArticleLocalizationId)
 		throws com.liferay.journal.exception.NoSuchArticleLocalizationException {
-		return getPersistence().remove(articleLocalizationId);
+		return getPersistence().remove(journalArticleLocalizationId);
 	}
 
 	public static JournalArticleLocalization updateImpl(
@@ -397,25 +407,25 @@ public class JournalArticleLocalizationUtil {
 	/**
 	* Returns the journal article localization with the primary key or throws a {@link NoSuchArticleLocalizationException} if it could not be found.
 	*
-	* @param articleLocalizationId the primary key of the journal article localization
+	* @param journalArticleLocalizationId the primary key of the journal article localization
 	* @return the journal article localization
 	* @throws NoSuchArticleLocalizationException if a journal article localization with the primary key could not be found
 	*/
 	public static JournalArticleLocalization findByPrimaryKey(
-		long articleLocalizationId)
+		long journalArticleLocalizationId)
 		throws com.liferay.journal.exception.NoSuchArticleLocalizationException {
-		return getPersistence().findByPrimaryKey(articleLocalizationId);
+		return getPersistence().findByPrimaryKey(journalArticleLocalizationId);
 	}
 
 	/**
 	* Returns the journal article localization with the primary key or returns <code>null</code> if it could not be found.
 	*
-	* @param articleLocalizationId the primary key of the journal article localization
+	* @param journalArticleLocalizationId the primary key of the journal article localization
 	* @return the journal article localization, or <code>null</code> if a journal article localization with the primary key could not be found
 	*/
 	public static JournalArticleLocalization fetchByPrimaryKey(
-		long articleLocalizationId) {
-		return getPersistence().fetchByPrimaryKey(articleLocalizationId);
+		long journalArticleLocalizationId) {
+		return getPersistence().fetchByPrimaryKey(journalArticleLocalizationId);
 	}
 
 	public static java.util.Map<java.io.Serializable, JournalArticleLocalization> fetchByPrimaryKeys(

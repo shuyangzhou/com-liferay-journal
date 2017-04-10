@@ -37,12 +37,12 @@ public interface JournalArticleLocalization
 	 *
 	 * Never modify this interface directly. Add methods to {@link com.liferay.journal.model.impl.JournalArticleLocalizationImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<JournalArticleLocalization, Long> ARTICLE_LOCALIZATION_ID_ACCESSOR =
+	public static final Accessor<JournalArticleLocalization, Long> JOURNAL_ARTICLE_LOCALIZATION_ID_ACCESSOR =
 		new Accessor<JournalArticleLocalization, Long>() {
 			@Override
 			public Long get(
 				JournalArticleLocalization journalArticleLocalization) {
-				return journalArticleLocalization.getArticleLocalizationId();
+				return journalArticleLocalization.getJournalArticleLocalizationId();
 			}
 
 			@Override

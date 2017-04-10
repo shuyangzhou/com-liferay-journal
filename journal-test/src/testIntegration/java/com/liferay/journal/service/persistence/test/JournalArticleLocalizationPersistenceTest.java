@@ -121,49 +121,53 @@ public class JournalArticleLocalizationPersistenceTest {
 
 		JournalArticleLocalization newJournalArticleLocalization = _persistence.create(pk);
 
+		newJournalArticleLocalization.setMvccVersion(RandomTestUtil.nextLong());
+
 		newJournalArticleLocalization.setCompanyId(RandomTestUtil.nextLong());
 
-		newJournalArticleLocalization.setArticlePK(RandomTestUtil.nextLong());
+		newJournalArticleLocalization.setJournalArticlePK(RandomTestUtil.nextLong());
+
+		newJournalArticleLocalization.setLanguageId(RandomTestUtil.randomString());
 
 		newJournalArticleLocalization.setTitle(RandomTestUtil.randomString());
 
 		newJournalArticleLocalization.setDescription(RandomTestUtil.randomString());
-
-		newJournalArticleLocalization.setLanguageId(RandomTestUtil.randomString());
 
 		_journalArticleLocalizations.add(_persistence.update(
 				newJournalArticleLocalization));
 
 		JournalArticleLocalization existingJournalArticleLocalization = _persistence.findByPrimaryKey(newJournalArticleLocalization.getPrimaryKey());
 
-		Assert.assertEquals(existingJournalArticleLocalization.getArticleLocalizationId(),
-			newJournalArticleLocalization.getArticleLocalizationId());
+		Assert.assertEquals(existingJournalArticleLocalization.getMvccVersion(),
+			newJournalArticleLocalization.getMvccVersion());
+		Assert.assertEquals(existingJournalArticleLocalization.getJournalArticleLocalizationId(),
+			newJournalArticleLocalization.getJournalArticleLocalizationId());
 		Assert.assertEquals(existingJournalArticleLocalization.getCompanyId(),
 			newJournalArticleLocalization.getCompanyId());
-		Assert.assertEquals(existingJournalArticleLocalization.getArticlePK(),
-			newJournalArticleLocalization.getArticlePK());
+		Assert.assertEquals(existingJournalArticleLocalization.getJournalArticlePK(),
+			newJournalArticleLocalization.getJournalArticlePK());
+		Assert.assertEquals(existingJournalArticleLocalization.getLanguageId(),
+			newJournalArticleLocalization.getLanguageId());
 		Assert.assertEquals(existingJournalArticleLocalization.getTitle(),
 			newJournalArticleLocalization.getTitle());
 		Assert.assertEquals(existingJournalArticleLocalization.getDescription(),
 			newJournalArticleLocalization.getDescription());
-		Assert.assertEquals(existingJournalArticleLocalization.getLanguageId(),
-			newJournalArticleLocalization.getLanguageId());
 	}
 
 	@Test
-	public void testCountByArticlePK() throws Exception {
-		_persistence.countByArticlePK(RandomTestUtil.nextLong());
+	public void testCountByJournalArticlePK() throws Exception {
+		_persistence.countByJournalArticlePK(RandomTestUtil.nextLong());
 
-		_persistence.countByArticlePK(0L);
+		_persistence.countByJournalArticlePK(0L);
 	}
 
 	@Test
-	public void testCountByA_L() throws Exception {
-		_persistence.countByA_L(RandomTestUtil.nextLong(), StringPool.BLANK);
+	public void testCountByJA_L() throws Exception {
+		_persistence.countByJA_L(RandomTestUtil.nextLong(), StringPool.BLANK);
 
-		_persistence.countByA_L(0L, StringPool.NULL);
+		_persistence.countByJA_L(0L, StringPool.NULL);
 
-		_persistence.countByA_L(0L, (String)null);
+		_persistence.countByJA_L(0L, (String)null);
 	}
 
 	@Test
@@ -191,8 +195,9 @@ public class JournalArticleLocalizationPersistenceTest {
 
 	protected OrderByComparator<JournalArticleLocalization> getOrderByComparator() {
 		return OrderByComparatorFactoryUtil.create("JournalArticleLocalization",
-			"articleLocalizationId", true, "companyId", true, "articlePK",
-			true, "title", true, "description", true, "languageId", true);
+			"mvccVersion", true, "journalArticleLocalizationId", true,
+			"companyId", true, "journalArticlePK", true, "languageId", true,
+			"title", true, "description", true);
 	}
 
 	@Test
@@ -313,8 +318,9 @@ public class JournalArticleLocalizationPersistenceTest {
 		DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(JournalArticleLocalization.class,
 				_dynamicQueryClassLoader);
 
-		dynamicQuery.add(RestrictionsFactoryUtil.eq("articleLocalizationId",
-				newJournalArticleLocalization.getArticleLocalizationId()));
+		dynamicQuery.add(RestrictionsFactoryUtil.eq(
+				"journalArticleLocalizationId",
+				newJournalArticleLocalization.getJournalArticleLocalizationId()));
 
 		List<JournalArticleLocalization> result = _persistence.findWithDynamicQuery(dynamicQuery);
 
@@ -331,8 +337,8 @@ public class JournalArticleLocalizationPersistenceTest {
 		DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(JournalArticleLocalization.class,
 				_dynamicQueryClassLoader);
 
-		dynamicQuery.add(RestrictionsFactoryUtil.eq("articleLocalizationId",
-				RandomTestUtil.nextLong()));
+		dynamicQuery.add(RestrictionsFactoryUtil.eq(
+				"journalArticleLocalizationId", RandomTestUtil.nextLong()));
 
 		List<JournalArticleLocalization> result = _persistence.findWithDynamicQuery(dynamicQuery);
 
@@ -348,21 +354,22 @@ public class JournalArticleLocalizationPersistenceTest {
 				_dynamicQueryClassLoader);
 
 		dynamicQuery.setProjection(ProjectionFactoryUtil.property(
-				"articleLocalizationId"));
+				"journalArticleLocalizationId"));
 
-		Object newArticleLocalizationId = newJournalArticleLocalization.getArticleLocalizationId();
+		Object newJournalArticleLocalizationId = newJournalArticleLocalization.getJournalArticleLocalizationId();
 
-		dynamicQuery.add(RestrictionsFactoryUtil.in("articleLocalizationId",
-				new Object[] { newArticleLocalizationId }));
+		dynamicQuery.add(RestrictionsFactoryUtil.in(
+				"journalArticleLocalizationId",
+				new Object[] { newJournalArticleLocalizationId }));
 
 		List<Object> result = _persistence.findWithDynamicQuery(dynamicQuery);
 
 		Assert.assertEquals(1, result.size());
 
-		Object existingArticleLocalizationId = result.get(0);
+		Object existingJournalArticleLocalizationId = result.get(0);
 
-		Assert.assertEquals(existingArticleLocalizationId,
-			newArticleLocalizationId);
+		Assert.assertEquals(existingJournalArticleLocalizationId,
+			newJournalArticleLocalizationId);
 	}
 
 	@Test
@@ -371,9 +378,10 @@ public class JournalArticleLocalizationPersistenceTest {
 				_dynamicQueryClassLoader);
 
 		dynamicQuery.setProjection(ProjectionFactoryUtil.property(
-				"articleLocalizationId"));
+				"journalArticleLocalizationId"));
 
-		dynamicQuery.add(RestrictionsFactoryUtil.in("articleLocalizationId",
+		dynamicQuery.add(RestrictionsFactoryUtil.in(
+				"journalArticleLocalizationId",
 				new Object[] { RandomTestUtil.nextLong() }));
 
 		List<Object> result = _persistence.findWithDynamicQuery(dynamicQuery);
@@ -390,10 +398,10 @@ public class JournalArticleLocalizationPersistenceTest {
 		JournalArticleLocalization existingJournalArticleLocalization = _persistence.findByPrimaryKey(newJournalArticleLocalization.getPrimaryKey());
 
 		Assert.assertEquals(Long.valueOf(
-				existingJournalArticleLocalization.getArticlePK()),
+				existingJournalArticleLocalization.getJournalArticlePK()),
 			ReflectionTestUtil.<Long>invoke(
-				existingJournalArticleLocalization, "getOriginalArticlePK",
-				new Class<?>[0]));
+				existingJournalArticleLocalization,
+				"getOriginalJournalArticlePK", new Class<?>[0]));
 		Assert.assertTrue(Objects.equals(
 				existingJournalArticleLocalization.getLanguageId(),
 				ReflectionTestUtil.invoke(existingJournalArticleLocalization,
@@ -406,15 +414,17 @@ public class JournalArticleLocalizationPersistenceTest {
 
 		JournalArticleLocalization journalArticleLocalization = _persistence.create(pk);
 
+		journalArticleLocalization.setMvccVersion(RandomTestUtil.nextLong());
+
 		journalArticleLocalization.setCompanyId(RandomTestUtil.nextLong());
 
-		journalArticleLocalization.setArticlePK(RandomTestUtil.nextLong());
+		journalArticleLocalization.setJournalArticlePK(RandomTestUtil.nextLong());
+
+		journalArticleLocalization.setLanguageId(RandomTestUtil.randomString());
 
 		journalArticleLocalization.setTitle(RandomTestUtil.randomString());
 
 		journalArticleLocalization.setDescription(RandomTestUtil.randomString());
-
-		journalArticleLocalization.setLanguageId(RandomTestUtil.randomString());
 
 		_journalArticleLocalizations.add(_persistence.update(
 				journalArticleLocalization));

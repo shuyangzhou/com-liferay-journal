@@ -30,7 +30,6 @@
 		<property name="content" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 		<property name="DDMStructureKey" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="DDMTemplateKey" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="defaultLanguageId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="layoutUuid" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="displayDate" type="org.hibernate.type.TimestampType" />
 		<property name="expirationDate" type="org.hibernate.type.TimestampType" />
@@ -44,16 +43,18 @@
 		<property name="statusByUserId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="statusByUserName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="statusDate" type="org.hibernate.type.TimestampType" />
+		<property name="defaultLanguageId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
 	<class name="com.liferay.journal.model.impl.JournalArticleLocalizationImpl" table="JournalArticleLocalization">
-		<id name="articleLocalizationId" type="long">
+		<id name="journalArticleLocalizationId" type="long">
 			<generator class="assigned" />
 		</id>
+		<version access="com.liferay.portal.dao.orm.hibernate.PrivatePropertyAccessor" name="mvccVersion" type="long" />
 		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
-		<property name="articlePK" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="journalArticlePK" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="languageId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="languageId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
 	<class name="com.liferay.journal.model.impl.JournalArticleResourceImpl" table="JournalArticleResource">
 		<id name="resourcePrimKey" type="long">

@@ -59,23 +59,31 @@ public class JournalArticleLocalizationWrapper
 	public Map<String, Object> getModelAttributes() {
 		Map<String, Object> attributes = new HashMap<String, Object>();
 
-		attributes.put("articleLocalizationId", getArticleLocalizationId());
+		attributes.put("mvccVersion", getMvccVersion());
+		attributes.put("journalArticleLocalizationId",
+			getJournalArticleLocalizationId());
 		attributes.put("companyId", getCompanyId());
-		attributes.put("articlePK", getArticlePK());
+		attributes.put("journalArticlePK", getJournalArticlePK());
+		attributes.put("languageId", getLanguageId());
 		attributes.put("title", getTitle());
 		attributes.put("description", getDescription());
-		attributes.put("languageId", getLanguageId());
 
 		return attributes;
 	}
 
 	@Override
 	public void setModelAttributes(Map<String, Object> attributes) {
-		Long articleLocalizationId = (Long)attributes.get(
-				"articleLocalizationId");
+		Long mvccVersion = (Long)attributes.get("mvccVersion");
 
-		if (articleLocalizationId != null) {
-			setArticleLocalizationId(articleLocalizationId);
+		if (mvccVersion != null) {
+			setMvccVersion(mvccVersion);
+		}
+
+		Long journalArticleLocalizationId = (Long)attributes.get(
+				"journalArticleLocalizationId");
+
+		if (journalArticleLocalizationId != null) {
+			setJournalArticleLocalizationId(journalArticleLocalizationId);
 		}
 
 		Long companyId = (Long)attributes.get("companyId");
@@ -84,10 +92,16 @@ public class JournalArticleLocalizationWrapper
 			setCompanyId(companyId);
 		}
 
-		Long articlePK = (Long)attributes.get("articlePK");
+		Long journalArticlePK = (Long)attributes.get("journalArticlePK");
 
-		if (articlePK != null) {
-			setArticlePK(articlePK);
+		if (journalArticlePK != null) {
+			setJournalArticlePK(journalArticlePK);
+		}
+
+		String languageId = (String)attributes.get("languageId");
+
+		if (languageId != null) {
+			setLanguageId(languageId);
 		}
 
 		String title = (String)attributes.get("title");
@@ -100,12 +114,6 @@ public class JournalArticleLocalizationWrapper
 
 		if (description != null) {
 			setDescription(description);
-		}
-
-		String languageId = (String)attributes.get("languageId");
-
-		if (languageId != null) {
-			setLanguageId(languageId);
 		}
 	}
 
@@ -205,26 +213,6 @@ public class JournalArticleLocalizationWrapper
 	}
 
 	/**
-	* Returns the article localization ID of this journal article localization.
-	*
-	* @return the article localization ID of this journal article localization
-	*/
-	@Override
-	public long getArticleLocalizationId() {
-		return _journalArticleLocalization.getArticleLocalizationId();
-	}
-
-	/**
-	* Returns the article pk of this journal article localization.
-	*
-	* @return the article pk of this journal article localization
-	*/
-	@Override
-	public long getArticlePK() {
-		return _journalArticleLocalization.getArticlePK();
-	}
-
-	/**
 	* Returns the company ID of this journal article localization.
 	*
 	* @return the company ID of this journal article localization
@@ -235,6 +223,36 @@ public class JournalArticleLocalizationWrapper
 	}
 
 	/**
+	* Returns the journal article localization ID of this journal article localization.
+	*
+	* @return the journal article localization ID of this journal article localization
+	*/
+	@Override
+	public long getJournalArticleLocalizationId() {
+		return _journalArticleLocalization.getJournalArticleLocalizationId();
+	}
+
+	/**
+	* Returns the journal article pk of this journal article localization.
+	*
+	* @return the journal article pk of this journal article localization
+	*/
+	@Override
+	public long getJournalArticlePK() {
+		return _journalArticleLocalization.getJournalArticlePK();
+	}
+
+	/**
+	* Returns the mvcc version of this journal article localization.
+	*
+	* @return the mvcc version of this journal article localization
+	*/
+	@Override
+	public long getMvccVersion() {
+		return _journalArticleLocalization.getMvccVersion();
+	}
+
+	/**
 	* Returns the primary key of this journal article localization.
 	*
 	* @return the primary key of this journal article localization
@@ -242,26 +260,6 @@ public class JournalArticleLocalizationWrapper
 	@Override
 	public long getPrimaryKey() {
 		return _journalArticleLocalization.getPrimaryKey();
-	}
-
-	/**
-	* Sets the article localization ID of this journal article localization.
-	*
-	* @param articleLocalizationId the article localization ID of this journal article localization
-	*/
-	@Override
-	public void setArticleLocalizationId(long articleLocalizationId) {
-		_journalArticleLocalization.setArticleLocalizationId(articleLocalizationId);
-	}
-
-	/**
-	* Sets the article pk of this journal article localization.
-	*
-	* @param articlePK the article pk of this journal article localization
-	*/
-	@Override
-	public void setArticlePK(long articlePK) {
-		_journalArticleLocalization.setArticlePK(articlePK);
 	}
 
 	@Override
@@ -306,6 +304,27 @@ public class JournalArticleLocalizationWrapper
 	}
 
 	/**
+	* Sets the journal article localization ID of this journal article localization.
+	*
+	* @param journalArticleLocalizationId the journal article localization ID of this journal article localization
+	*/
+	@Override
+	public void setJournalArticleLocalizationId(
+		long journalArticleLocalizationId) {
+		_journalArticleLocalization.setJournalArticleLocalizationId(journalArticleLocalizationId);
+	}
+
+	/**
+	* Sets the journal article pk of this journal article localization.
+	*
+	* @param journalArticlePK the journal article pk of this journal article localization
+	*/
+	@Override
+	public void setJournalArticlePK(long journalArticlePK) {
+		_journalArticleLocalization.setJournalArticlePK(journalArticlePK);
+	}
+
+	/**
 	* Sets the language ID of this journal article localization.
 	*
 	* @param languageId the language ID of this journal article localization
@@ -313,6 +332,16 @@ public class JournalArticleLocalizationWrapper
 	@Override
 	public void setLanguageId(java.lang.String languageId) {
 		_journalArticleLocalization.setLanguageId(languageId);
+	}
+
+	/**
+	* Sets the mvcc version of this journal article localization.
+	*
+	* @param mvccVersion the mvcc version of this journal article localization
+	*/
+	@Override
+	public void setMvccVersion(long mvccVersion) {
+		_journalArticleLocalization.setMvccVersion(mvccVersion);
 	}
 
 	@Override

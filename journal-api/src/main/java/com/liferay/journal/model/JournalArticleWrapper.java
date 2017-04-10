@@ -79,7 +79,6 @@ public class JournalArticleWrapper implements JournalArticle,
 		attributes.put("content", getContent());
 		attributes.put("DDMStructureKey", getDDMStructureKey());
 		attributes.put("DDMTemplateKey", getDDMTemplateKey());
-		attributes.put("defaultLanguageId", getDefaultLanguageId());
 		attributes.put("layoutUuid", getLayoutUuid());
 		attributes.put("displayDate", getDisplayDate());
 		attributes.put("expirationDate", getExpirationDate());
@@ -93,6 +92,7 @@ public class JournalArticleWrapper implements JournalArticle,
 		attributes.put("statusByUserId", getStatusByUserId());
 		attributes.put("statusByUserName", getStatusByUserName());
 		attributes.put("statusDate", getStatusDate());
+		attributes.put("defaultLanguageId", getDefaultLanguageId());
 
 		return attributes;
 	}
@@ -213,12 +213,6 @@ public class JournalArticleWrapper implements JournalArticle,
 			setDDMTemplateKey(DDMTemplateKey);
 		}
 
-		String defaultLanguageId = (String)attributes.get("defaultLanguageId");
-
-		if (defaultLanguageId != null) {
-			setDefaultLanguageId(defaultLanguageId);
-		}
-
 		String layoutUuid = (String)attributes.get("layoutUuid");
 
 		if (layoutUuid != null) {
@@ -295,6 +289,12 @@ public class JournalArticleWrapper implements JournalArticle,
 
 		if (statusDate != null) {
 			setStatusDate(statusDate);
+		}
+
+		String defaultLanguageId = (String)attributes.get("defaultLanguageId");
+
+		if (defaultLanguageId != null) {
+			setDefaultLanguageId(defaultLanguageId);
 		}
 	}
 
@@ -1000,6 +1000,16 @@ public class JournalArticleWrapper implements JournalArticle,
 	@Override
 	public Map<java.util.Locale, java.lang.String> getDescriptionMap() {
 		return _journalArticle.getDescriptionMap();
+	}
+
+	@Override
+	public Map<java.lang.String, java.lang.String> getLanguageIdToDescriptionMap() {
+		return _journalArticle.getLanguageIdToDescriptionMap();
+	}
+
+	@Override
+	public Map<java.lang.String, java.lang.String> getLanguageIdToTitleMap() {
+		return _journalArticle.getLanguageIdToTitleMap();
 	}
 
 	@Override

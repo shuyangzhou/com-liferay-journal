@@ -61,28 +61,30 @@ public class JournalArticleLocalizationModelImpl extends BaseModelImpl<JournalAr
 	 */
 	public static final String TABLE_NAME = "JournalArticleLocalization";
 	public static final Object[][] TABLE_COLUMNS = {
-			{ "articleLocalizationId", Types.BIGINT },
+			{ "mvccVersion", Types.BIGINT },
+			{ "journalArticleLocalizationId", Types.BIGINT },
 			{ "companyId", Types.BIGINT },
-			{ "articlePK", Types.BIGINT },
+			{ "journalArticlePK", Types.BIGINT },
+			{ "languageId", Types.VARCHAR },
 			{ "title", Types.VARCHAR },
-			{ "description", Types.VARCHAR },
-			{ "languageId", Types.VARCHAR }
+			{ "description", Types.VARCHAR }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
 	static {
-		TABLE_COLUMNS_MAP.put("articleLocalizationId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("mvccVersion", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("journalArticleLocalizationId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("companyId", Types.BIGINT);
-		TABLE_COLUMNS_MAP.put("articlePK", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("journalArticlePK", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("languageId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("description", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("languageId", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table JournalArticleLocalization (articleLocalizationId LONG not null primary key,companyId LONG,articlePK LONG,title VARCHAR(400) null,description STRING null,languageId VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table JournalArticleLocalization (mvccVersion LONG default 0 not null,journalArticleLocalizationId LONG not null primary key,companyId LONG,journalArticlePK LONG,languageId VARCHAR(75) null,title VARCHAR(400) null,description STRING null)";
 	public static final String TABLE_SQL_DROP = "drop table JournalArticleLocalization";
-	public static final String ORDER_BY_JPQL = " ORDER BY journalArticleLocalization.articleLocalizationId ASC";
-	public static final String ORDER_BY_SQL = " ORDER BY JournalArticleLocalization.articleLocalizationId ASC";
+	public static final String ORDER_BY_JPQL = " ORDER BY journalArticleLocalization.journalArticleLocalizationId ASC";
+	public static final String ORDER_BY_SQL = " ORDER BY JournalArticleLocalization.journalArticleLocalizationId ASC";
 	public static final String DATA_SOURCE = "liferayDataSource";
 	public static final String SESSION_FACTORY = "liferaySessionFactory";
 	public static final String TX_MANAGER = "liferayTransactionManager";
@@ -95,9 +97,9 @@ public class JournalArticleLocalizationModelImpl extends BaseModelImpl<JournalAr
 	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(com.liferay.journal.service.util.ServiceProps.get(
 				"value.object.column.bitmask.enabled.com.liferay.journal.model.JournalArticleLocalization"),
 			true);
-	public static final long ARTICLEPK_COLUMN_BITMASK = 1L;
+	public static final long JOURNALARTICLEPK_COLUMN_BITMASK = 1L;
 	public static final long LANGUAGEID_COLUMN_BITMASK = 2L;
-	public static final long ARTICLELOCALIZATIONID_COLUMN_BITMASK = 4L;
+	public static final long JOURNALARTICLELOCALIZATIONID_COLUMN_BITMASK = 4L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.journal.service.util.ServiceProps.get(
 				"lock.expiration.time.com.liferay.journal.model.JournalArticleLocalization"));
 
@@ -106,17 +108,17 @@ public class JournalArticleLocalizationModelImpl extends BaseModelImpl<JournalAr
 
 	@Override
 	public long getPrimaryKey() {
-		return _articleLocalizationId;
+		return _journalArticleLocalizationId;
 	}
 
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		setArticleLocalizationId(primaryKey);
+		setJournalArticleLocalizationId(primaryKey);
 	}
 
 	@Override
 	public Serializable getPrimaryKeyObj() {
-		return _articleLocalizationId;
+		return _journalArticleLocalizationId;
 	}
 
 	@Override
@@ -138,12 +140,14 @@ public class JournalArticleLocalizationModelImpl extends BaseModelImpl<JournalAr
 	public Map<String, Object> getModelAttributes() {
 		Map<String, Object> attributes = new HashMap<String, Object>();
 
-		attributes.put("articleLocalizationId", getArticleLocalizationId());
+		attributes.put("mvccVersion", getMvccVersion());
+		attributes.put("journalArticleLocalizationId",
+			getJournalArticleLocalizationId());
 		attributes.put("companyId", getCompanyId());
-		attributes.put("articlePK", getArticlePK());
+		attributes.put("journalArticlePK", getJournalArticlePK());
+		attributes.put("languageId", getLanguageId());
 		attributes.put("title", getTitle());
 		attributes.put("description", getDescription());
-		attributes.put("languageId", getLanguageId());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -153,11 +157,17 @@ public class JournalArticleLocalizationModelImpl extends BaseModelImpl<JournalAr
 
 	@Override
 	public void setModelAttributes(Map<String, Object> attributes) {
-		Long articleLocalizationId = (Long)attributes.get(
-				"articleLocalizationId");
+		Long mvccVersion = (Long)attributes.get("mvccVersion");
 
-		if (articleLocalizationId != null) {
-			setArticleLocalizationId(articleLocalizationId);
+		if (mvccVersion != null) {
+			setMvccVersion(mvccVersion);
+		}
+
+		Long journalArticleLocalizationId = (Long)attributes.get(
+				"journalArticleLocalizationId");
+
+		if (journalArticleLocalizationId != null) {
+			setJournalArticleLocalizationId(journalArticleLocalizationId);
 		}
 
 		Long companyId = (Long)attributes.get("companyId");
@@ -166,10 +176,16 @@ public class JournalArticleLocalizationModelImpl extends BaseModelImpl<JournalAr
 			setCompanyId(companyId);
 		}
 
-		Long articlePK = (Long)attributes.get("articlePK");
+		Long journalArticlePK = (Long)attributes.get("journalArticlePK");
 
-		if (articlePK != null) {
-			setArticlePK(articlePK);
+		if (journalArticlePK != null) {
+			setJournalArticlePK(journalArticlePK);
+		}
+
+		String languageId = (String)attributes.get("languageId");
+
+		if (languageId != null) {
+			setLanguageId(languageId);
 		}
 
 		String title = (String)attributes.get("title");
@@ -183,22 +199,27 @@ public class JournalArticleLocalizationModelImpl extends BaseModelImpl<JournalAr
 		if (description != null) {
 			setDescription(description);
 		}
-
-		String languageId = (String)attributes.get("languageId");
-
-		if (languageId != null) {
-			setLanguageId(languageId);
-		}
 	}
 
 	@Override
-	public long getArticleLocalizationId() {
-		return _articleLocalizationId;
+	public long getMvccVersion() {
+		return _mvccVersion;
 	}
 
 	@Override
-	public void setArticleLocalizationId(long articleLocalizationId) {
-		_articleLocalizationId = articleLocalizationId;
+	public void setMvccVersion(long mvccVersion) {
+		_mvccVersion = mvccVersion;
+	}
+
+	@Override
+	public long getJournalArticleLocalizationId() {
+		return _journalArticleLocalizationId;
+	}
+
+	@Override
+	public void setJournalArticleLocalizationId(
+		long journalArticleLocalizationId) {
+		_journalArticleLocalizationId = journalArticleLocalizationId;
 	}
 
 	@Override
@@ -212,25 +233,50 @@ public class JournalArticleLocalizationModelImpl extends BaseModelImpl<JournalAr
 	}
 
 	@Override
-	public long getArticlePK() {
-		return _articlePK;
+	public long getJournalArticlePK() {
+		return _journalArticlePK;
 	}
 
 	@Override
-	public void setArticlePK(long articlePK) {
-		_columnBitmask |= ARTICLEPK_COLUMN_BITMASK;
+	public void setJournalArticlePK(long journalArticlePK) {
+		_columnBitmask |= JOURNALARTICLEPK_COLUMN_BITMASK;
 
-		if (!_setOriginalArticlePK) {
-			_setOriginalArticlePK = true;
+		if (!_setOriginalJournalArticlePK) {
+			_setOriginalJournalArticlePK = true;
 
-			_originalArticlePK = _articlePK;
+			_originalJournalArticlePK = _journalArticlePK;
 		}
 
-		_articlePK = articlePK;
+		_journalArticlePK = journalArticlePK;
 	}
 
-	public long getOriginalArticlePK() {
-		return _originalArticlePK;
+	public long getOriginalJournalArticlePK() {
+		return _originalJournalArticlePK;
+	}
+
+	@Override
+	public String getLanguageId() {
+		if (_languageId == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _languageId;
+		}
+	}
+
+	@Override
+	public void setLanguageId(String languageId) {
+		_columnBitmask |= LANGUAGEID_COLUMN_BITMASK;
+
+		if (_originalLanguageId == null) {
+			_originalLanguageId = _languageId;
+		}
+
+		_languageId = languageId;
+	}
+
+	public String getOriginalLanguageId() {
+		return GetterUtil.getString(_originalLanguageId);
 	}
 
 	@Override
@@ -261,31 +307,6 @@ public class JournalArticleLocalizationModelImpl extends BaseModelImpl<JournalAr
 	@Override
 	public void setDescription(String description) {
 		_description = description;
-	}
-
-	@Override
-	public String getLanguageId() {
-		if (_languageId == null) {
-			return StringPool.BLANK;
-		}
-		else {
-			return _languageId;
-		}
-	}
-
-	@Override
-	public void setLanguageId(String languageId) {
-		_columnBitmask |= LANGUAGEID_COLUMN_BITMASK;
-
-		if (_originalLanguageId == null) {
-			_originalLanguageId = _languageId;
-		}
-
-		_languageId = languageId;
-	}
-
-	public String getOriginalLanguageId() {
-		return GetterUtil.getString(_originalLanguageId);
 	}
 
 	public long getColumnBitmask() {
@@ -319,12 +340,13 @@ public class JournalArticleLocalizationModelImpl extends BaseModelImpl<JournalAr
 	public Object clone() {
 		JournalArticleLocalizationImpl journalArticleLocalizationImpl = new JournalArticleLocalizationImpl();
 
-		journalArticleLocalizationImpl.setArticleLocalizationId(getArticleLocalizationId());
+		journalArticleLocalizationImpl.setMvccVersion(getMvccVersion());
+		journalArticleLocalizationImpl.setJournalArticleLocalizationId(getJournalArticleLocalizationId());
 		journalArticleLocalizationImpl.setCompanyId(getCompanyId());
-		journalArticleLocalizationImpl.setArticlePK(getArticlePK());
+		journalArticleLocalizationImpl.setJournalArticlePK(getJournalArticlePK());
+		journalArticleLocalizationImpl.setLanguageId(getLanguageId());
 		journalArticleLocalizationImpl.setTitle(getTitle());
 		journalArticleLocalizationImpl.setDescription(getDescription());
-		journalArticleLocalizationImpl.setLanguageId(getLanguageId());
 
 		journalArticleLocalizationImpl.resetOriginalValues();
 
@@ -387,9 +409,9 @@ public class JournalArticleLocalizationModelImpl extends BaseModelImpl<JournalAr
 	public void resetOriginalValues() {
 		JournalArticleLocalizationModelImpl journalArticleLocalizationModelImpl = this;
 
-		journalArticleLocalizationModelImpl._originalArticlePK = journalArticleLocalizationModelImpl._articlePK;
+		journalArticleLocalizationModelImpl._originalJournalArticlePK = journalArticleLocalizationModelImpl._journalArticlePK;
 
-		journalArticleLocalizationModelImpl._setOriginalArticlePK = false;
+		journalArticleLocalizationModelImpl._setOriginalJournalArticlePK = false;
 
 		journalArticleLocalizationModelImpl._originalLanguageId = journalArticleLocalizationModelImpl._languageId;
 
@@ -401,11 +423,21 @@ public class JournalArticleLocalizationModelImpl extends BaseModelImpl<JournalAr
 		JournalArticleLocalizationCacheModel journalArticleLocalizationCacheModel =
 			new JournalArticleLocalizationCacheModel();
 
-		journalArticleLocalizationCacheModel.articleLocalizationId = getArticleLocalizationId();
+		journalArticleLocalizationCacheModel.mvccVersion = getMvccVersion();
+
+		journalArticleLocalizationCacheModel.journalArticleLocalizationId = getJournalArticleLocalizationId();
 
 		journalArticleLocalizationCacheModel.companyId = getCompanyId();
 
-		journalArticleLocalizationCacheModel.articlePK = getArticlePK();
+		journalArticleLocalizationCacheModel.journalArticlePK = getJournalArticlePK();
+
+		journalArticleLocalizationCacheModel.languageId = getLanguageId();
+
+		String languageId = journalArticleLocalizationCacheModel.languageId;
+
+		if ((languageId != null) && (languageId.length() == 0)) {
+			journalArticleLocalizationCacheModel.languageId = null;
+		}
 
 		journalArticleLocalizationCacheModel.title = getTitle();
 
@@ -423,33 +455,27 @@ public class JournalArticleLocalizationModelImpl extends BaseModelImpl<JournalAr
 			journalArticleLocalizationCacheModel.description = null;
 		}
 
-		journalArticleLocalizationCacheModel.languageId = getLanguageId();
-
-		String languageId = journalArticleLocalizationCacheModel.languageId;
-
-		if ((languageId != null) && (languageId.length() == 0)) {
-			journalArticleLocalizationCacheModel.languageId = null;
-		}
-
 		return journalArticleLocalizationCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(13);
+		StringBundler sb = new StringBundler(15);
 
-		sb.append("{articleLocalizationId=");
-		sb.append(getArticleLocalizationId());
+		sb.append("{mvccVersion=");
+		sb.append(getMvccVersion());
+		sb.append(", journalArticleLocalizationId=");
+		sb.append(getJournalArticleLocalizationId());
 		sb.append(", companyId=");
 		sb.append(getCompanyId());
-		sb.append(", articlePK=");
-		sb.append(getArticlePK());
+		sb.append(", journalArticlePK=");
+		sb.append(getJournalArticlePK());
+		sb.append(", languageId=");
+		sb.append(getLanguageId());
 		sb.append(", title=");
 		sb.append(getTitle());
 		sb.append(", description=");
 		sb.append(getDescription());
-		sb.append(", languageId=");
-		sb.append(getLanguageId());
 		sb.append("}");
 
 		return sb.toString();
@@ -457,23 +483,31 @@ public class JournalArticleLocalizationModelImpl extends BaseModelImpl<JournalAr
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(22);
+		StringBundler sb = new StringBundler(25);
 
 		sb.append("<model><model-name>");
 		sb.append("com.liferay.journal.model.JournalArticleLocalization");
 		sb.append("</model-name>");
 
 		sb.append(
-			"<column><column-name>articleLocalizationId</column-name><column-value><![CDATA[");
-		sb.append(getArticleLocalizationId());
+			"<column><column-name>mvccVersion</column-name><column-value><![CDATA[");
+		sb.append(getMvccVersion());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>journalArticleLocalizationId</column-name><column-value><![CDATA[");
+		sb.append(getJournalArticleLocalizationId());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>companyId</column-name><column-value><![CDATA[");
 		sb.append(getCompanyId());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>articlePK</column-name><column-value><![CDATA[");
-		sb.append(getArticlePK());
+			"<column><column-name>journalArticlePK</column-name><column-value><![CDATA[");
+		sb.append(getJournalArticlePK());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>languageId</column-name><column-value><![CDATA[");
+		sb.append(getLanguageId());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>title</column-name><column-value><![CDATA[");
@@ -482,10 +516,6 @@ public class JournalArticleLocalizationModelImpl extends BaseModelImpl<JournalAr
 		sb.append(
 			"<column><column-name>description</column-name><column-value><![CDATA[");
 		sb.append(getDescription());
-		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>languageId</column-name><column-value><![CDATA[");
-		sb.append(getLanguageId());
 		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
@@ -497,15 +527,16 @@ public class JournalArticleLocalizationModelImpl extends BaseModelImpl<JournalAr
 	private static final Class<?>[] _escapedModelInterfaces = new Class[] {
 			JournalArticleLocalization.class
 		};
-	private long _articleLocalizationId;
+	private long _mvccVersion;
+	private long _journalArticleLocalizationId;
 	private long _companyId;
-	private long _articlePK;
-	private long _originalArticlePK;
-	private boolean _setOriginalArticlePK;
-	private String _title;
-	private String _description;
+	private long _journalArticlePK;
+	private long _originalJournalArticlePK;
+	private boolean _setOriginalJournalArticlePK;
 	private String _languageId;
 	private String _originalLanguageId;
+	private String _title;
+	private String _description;
 	private long _columnBitmask;
 	private JournalArticleLocalization _escapedModel;
 }

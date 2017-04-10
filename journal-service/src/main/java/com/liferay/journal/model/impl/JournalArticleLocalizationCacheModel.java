@@ -19,6 +19,7 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.journal.model.JournalArticleLocalization;
 
 import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.model.MVCCModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
@@ -37,7 +38,7 @@ import java.io.ObjectOutput;
  */
 @ProviderType
 public class JournalArticleLocalizationCacheModel implements CacheModel<JournalArticleLocalization>,
-	Externalizable {
+	Externalizable, MVCCModel {
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -51,7 +52,8 @@ public class JournalArticleLocalizationCacheModel implements CacheModel<JournalA
 		JournalArticleLocalizationCacheModel journalArticleLocalizationCacheModel =
 			(JournalArticleLocalizationCacheModel)obj;
 
-		if (articleLocalizationId == journalArticleLocalizationCacheModel.articleLocalizationId) {
+		if ((journalArticleLocalizationId == journalArticleLocalizationCacheModel.journalArticleLocalizationId) &&
+				(mvccVersion == journalArticleLocalizationCacheModel.mvccVersion)) {
 			return true;
 		}
 
@@ -60,25 +62,39 @@ public class JournalArticleLocalizationCacheModel implements CacheModel<JournalA
 
 	@Override
 	public int hashCode() {
-		return HashUtil.hash(0, articleLocalizationId);
+		int hashCode = HashUtil.hash(0, journalArticleLocalizationId);
+
+		return HashUtil.hash(hashCode, mvccVersion);
+	}
+
+	@Override
+	public long getMvccVersion() {
+		return mvccVersion;
+	}
+
+	@Override
+	public void setMvccVersion(long mvccVersion) {
+		this.mvccVersion = mvccVersion;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(13);
+		StringBundler sb = new StringBundler(15);
 
-		sb.append("{articleLocalizationId=");
-		sb.append(articleLocalizationId);
+		sb.append("{mvccVersion=");
+		sb.append(mvccVersion);
+		sb.append(", journalArticleLocalizationId=");
+		sb.append(journalArticleLocalizationId);
 		sb.append(", companyId=");
 		sb.append(companyId);
-		sb.append(", articlePK=");
-		sb.append(articlePK);
+		sb.append(", journalArticlePK=");
+		sb.append(journalArticlePK);
+		sb.append(", languageId=");
+		sb.append(languageId);
 		sb.append(", title=");
 		sb.append(title);
 		sb.append(", description=");
 		sb.append(description);
-		sb.append(", languageId=");
-		sb.append(languageId);
 		sb.append("}");
 
 		return sb.toString();
@@ -88,9 +104,17 @@ public class JournalArticleLocalizationCacheModel implements CacheModel<JournalA
 	public JournalArticleLocalization toEntityModel() {
 		JournalArticleLocalizationImpl journalArticleLocalizationImpl = new JournalArticleLocalizationImpl();
 
-		journalArticleLocalizationImpl.setArticleLocalizationId(articleLocalizationId);
+		journalArticleLocalizationImpl.setMvccVersion(mvccVersion);
+		journalArticleLocalizationImpl.setJournalArticleLocalizationId(journalArticleLocalizationId);
 		journalArticleLocalizationImpl.setCompanyId(companyId);
-		journalArticleLocalizationImpl.setArticlePK(articlePK);
+		journalArticleLocalizationImpl.setJournalArticlePK(journalArticlePK);
+
+		if (languageId == null) {
+			journalArticleLocalizationImpl.setLanguageId(StringPool.BLANK);
+		}
+		else {
+			journalArticleLocalizationImpl.setLanguageId(languageId);
+		}
 
 		if (title == null) {
 			journalArticleLocalizationImpl.setTitle(StringPool.BLANK);
@@ -106,13 +130,6 @@ public class JournalArticleLocalizationCacheModel implements CacheModel<JournalA
 			journalArticleLocalizationImpl.setDescription(description);
 		}
 
-		if (languageId == null) {
-			journalArticleLocalizationImpl.setLanguageId(StringPool.BLANK);
-		}
-		else {
-			journalArticleLocalizationImpl.setLanguageId(languageId);
-		}
-
 		journalArticleLocalizationImpl.resetOriginalValues();
 
 		return journalArticleLocalizationImpl;
@@ -120,24 +137,35 @@ public class JournalArticleLocalizationCacheModel implements CacheModel<JournalA
 
 	@Override
 	public void readExternal(ObjectInput objectInput) throws IOException {
-		articleLocalizationId = objectInput.readLong();
+		mvccVersion = objectInput.readLong();
+
+		journalArticleLocalizationId = objectInput.readLong();
 
 		companyId = objectInput.readLong();
 
-		articlePK = objectInput.readLong();
+		journalArticlePK = objectInput.readLong();
+		languageId = objectInput.readUTF();
 		title = objectInput.readUTF();
 		description = objectInput.readUTF();
-		languageId = objectInput.readUTF();
 	}
 
 	@Override
 	public void writeExternal(ObjectOutput objectOutput)
 		throws IOException {
-		objectOutput.writeLong(articleLocalizationId);
+		objectOutput.writeLong(mvccVersion);
+
+		objectOutput.writeLong(journalArticleLocalizationId);
 
 		objectOutput.writeLong(companyId);
 
-		objectOutput.writeLong(articlePK);
+		objectOutput.writeLong(journalArticlePK);
+
+		if (languageId == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(languageId);
+		}
 
 		if (title == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
@@ -152,19 +180,13 @@ public class JournalArticleLocalizationCacheModel implements CacheModel<JournalA
 		else {
 			objectOutput.writeUTF(description);
 		}
-
-		if (languageId == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
-		}
-		else {
-			objectOutput.writeUTF(languageId);
-		}
 	}
 
-	public long articleLocalizationId;
+	public long mvccVersion;
+	public long journalArticleLocalizationId;
 	public long companyId;
-	public long articlePK;
+	public long journalArticlePK;
+	public String languageId;
 	public String title;
 	public String description;
-	public String languageId;
 }

@@ -20,6 +20,7 @@ import com.liferay.exportimport.kernel.lar.PortletDataContext;
 
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.model.JournalArticleDisplay;
+import com.liferay.journal.model.JournalArticleLocalization;
 
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
@@ -1383,6 +1384,14 @@ public interface JournalArticleLocalService extends BaseLocalService,
 		throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JournalArticleLocalization fetchJournalArticleLocalization(long id,
+		java.lang.String languageId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JournalArticleLocalization getJournalArticleLocalization(long id,
+		java.lang.String languageId) throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();
 
 	public DynamicQuery dynamicQuery();
@@ -2621,6 +2630,10 @@ public interface JournalArticleLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<JournalArticle> getIndexableArticlesByResourcePrimKey(
 		long resourcePrimKey);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<JournalArticleLocalization> getJournalArticleLocalizations(
+		long id);
 
 	/**
 	* Returns a range of all the journal articles.

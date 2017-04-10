@@ -24,7 +24,7 @@ create index IX_EF9B7028 on JournalArticle (smallImageId);
 create index IX_71520099 on JournalArticle (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_3463D95B on JournalArticle (uuid_[$COLUMN_LENGTH:75$], groupId);
 
-create unique index IX_ACF2560A on JournalArticleLocalization (articlePK, languageId[$COLUMN_LENGTH:75$]);
+create unique index IX_ACF2560A on JournalArticleLocalization (journalArticlePK, languageId[$COLUMN_LENGTH:75$]);
 
 create unique index IX_88DF994A on JournalArticleResource (groupId, articleId[$COLUMN_LENGTH:75$]);
 create index IX_CC7576C7 on JournalArticleResource (uuid_[$COLUMN_LENGTH:75$], companyId);

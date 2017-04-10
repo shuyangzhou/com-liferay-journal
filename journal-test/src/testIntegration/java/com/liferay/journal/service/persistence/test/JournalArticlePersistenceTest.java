@@ -162,8 +162,6 @@ public class JournalArticlePersistenceTest {
 
 		newJournalArticle.setDDMTemplateKey(RandomTestUtil.randomString());
 
-		newJournalArticle.setDefaultLanguageId(RandomTestUtil.randomString());
-
 		newJournalArticle.setLayoutUuid(RandomTestUtil.randomString());
 
 		newJournalArticle.setDisplayDate(RandomTestUtil.nextDate());
@@ -189,6 +187,8 @@ public class JournalArticlePersistenceTest {
 		newJournalArticle.setStatusByUserName(RandomTestUtil.randomString());
 
 		newJournalArticle.setStatusDate(RandomTestUtil.nextDate());
+
+		newJournalArticle.setDefaultLanguageId(RandomTestUtil.randomString());
 
 		_journalArticles.add(_persistence.update(newJournalArticle));
 
@@ -234,8 +234,6 @@ public class JournalArticlePersistenceTest {
 			newJournalArticle.getDDMStructureKey());
 		Assert.assertEquals(existingJournalArticle.getDDMTemplateKey(),
 			newJournalArticle.getDDMTemplateKey());
-		Assert.assertEquals(existingJournalArticle.getDefaultLanguageId(),
-			newJournalArticle.getDefaultLanguageId());
 		Assert.assertEquals(existingJournalArticle.getLayoutUuid(),
 			newJournalArticle.getLayoutUuid());
 		Assert.assertEquals(Time.getShortTimestamp(
@@ -267,6 +265,8 @@ public class JournalArticlePersistenceTest {
 		Assert.assertEquals(Time.getShortTimestamp(
 				existingJournalArticle.getStatusDate()),
 			Time.getShortTimestamp(newJournalArticle.getStatusDate()));
+		Assert.assertEquals(existingJournalArticle.getDefaultLanguageId(),
+			newJournalArticle.getDefaultLanguageId());
 	}
 
 	@Test
@@ -680,11 +680,11 @@ public class JournalArticlePersistenceTest {
 			true, "modifiedDate", true, "folderId", true, "classNameId", true,
 			"classPK", true, "treePath", true, "articleId", true, "version",
 			true, "urlTitle", true, "DDMStructureKey", true, "DDMTemplateKey",
-			true, "defaultLanguageId", true, "layoutUuid", true, "displayDate",
-			true, "expirationDate", true, "reviewDate", true, "indexable",
-			true, "smallImage", true, "smallImageId", true, "smallImageURL",
-			true, "lastPublishDate", true, "status", true, "statusByUserId",
-			true, "statusByUserName", true, "statusDate", true);
+			true, "layoutUuid", true, "displayDate", true, "expirationDate",
+			true, "reviewDate", true, "indexable", true, "smallImage", true,
+			"smallImageId", true, "smallImageURL", true, "lastPublishDate",
+			true, "status", true, "statusByUserId", true, "statusByUserName",
+			true, "statusDate", true, "defaultLanguageId", true);
 	}
 
 	@Test
@@ -958,8 +958,6 @@ public class JournalArticlePersistenceTest {
 
 		journalArticle.setDDMTemplateKey(RandomTestUtil.randomString());
 
-		journalArticle.setDefaultLanguageId(RandomTestUtil.randomString());
-
 		journalArticle.setLayoutUuid(RandomTestUtil.randomString());
 
 		journalArticle.setDisplayDate(RandomTestUtil.nextDate());
@@ -985,6 +983,8 @@ public class JournalArticlePersistenceTest {
 		journalArticle.setStatusByUserName(RandomTestUtil.randomString());
 
 		journalArticle.setStatusDate(RandomTestUtil.nextDate());
+
+		journalArticle.setDefaultLanguageId(RandomTestUtil.randomString());
 
 		_journalArticles.add(_persistence.update(journalArticle));
 

@@ -29,7 +29,6 @@
 		</field>
 		<field name="DDMStructureKey" type="String" />
 		<field name="DDMTemplateKey" type="String" />
-		<field name="defaultLanguageId" type="String" />
 		<field name="layoutUuid" type="String" />
 		<field name="displayDate" type="Date" />
 		<field name="expirationDate" type="Date">
@@ -51,18 +50,20 @@
 		<field name="statusByUserId" type="long" />
 		<field name="statusByUserName" type="String" />
 		<field name="statusDate" type="Date" />
+		<field name="defaultLanguageId" type="String" />
 	</model>
 	<model name="com.liferay.journal.model.JournalArticleLocalization">
-		<field name="articleLocalizationId" type="long" />
+		<field name="mvccVersion" type="long" />
+		<field name="journalArticleLocalizationId" type="long" />
 		<field name="companyId" type="long" />
-		<field name="articlePK" type="long" />
+		<field name="journalArticlePK" type="long" />
+		<field name="languageId" type="String" />
 		<field name="title" type="String">
 			<hint name="max-length">400</hint>
 		</field>
 		<field name="description" type="String">
 			<hint name="max-length">4000</hint>
 		</field>
-		<field name="languageId" type="String" />
 	</model>
 	<model name="com.liferay.journal.model.JournalArticleResource">
 		<field name="uuid" type="String" />

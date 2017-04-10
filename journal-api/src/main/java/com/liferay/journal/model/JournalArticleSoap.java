@@ -53,7 +53,6 @@ public class JournalArticleSoap implements Serializable {
 		soapModel.setContent(model.getContent());
 		soapModel.setDDMStructureKey(model.getDDMStructureKey());
 		soapModel.setDDMTemplateKey(model.getDDMTemplateKey());
-		soapModel.setDefaultLanguageId(model.getDefaultLanguageId());
 		soapModel.setLayoutUuid(model.getLayoutUuid());
 		soapModel.setDisplayDate(model.getDisplayDate());
 		soapModel.setExpirationDate(model.getExpirationDate());
@@ -67,6 +66,7 @@ public class JournalArticleSoap implements Serializable {
 		soapModel.setStatusByUserId(model.getStatusByUserId());
 		soapModel.setStatusByUserName(model.getStatusByUserName());
 		soapModel.setStatusDate(model.getStatusDate());
+		soapModel.setDefaultLanguageId(model.getDefaultLanguageId());
 
 		return soapModel;
 	}
@@ -271,14 +271,6 @@ public class JournalArticleSoap implements Serializable {
 		_DDMTemplateKey = DDMTemplateKey;
 	}
 
-	public String getDefaultLanguageId() {
-		return _defaultLanguageId;
-	}
-
-	public void setDefaultLanguageId(String defaultLanguageId) {
-		_defaultLanguageId = defaultLanguageId;
-	}
-
 	public String getLayoutUuid() {
 		return _layoutUuid;
 	}
@@ -391,6 +383,14 @@ public class JournalArticleSoap implements Serializable {
 		_statusDate = statusDate;
 	}
 
+	public String getDefaultLanguageId() {
+		return _defaultLanguageId;
+	}
+
+	public void setDefaultLanguageId(String defaultLanguageId) {
+		_defaultLanguageId = defaultLanguageId;
+	}
+
 	private String _uuid;
 	private long _id;
 	private long _resourcePrimKey;
@@ -410,7 +410,6 @@ public class JournalArticleSoap implements Serializable {
 	private String _content;
 	private String _DDMStructureKey;
 	private String _DDMTemplateKey;
-	private String _defaultLanguageId;
 	private String _layoutUuid;
 	private Date _displayDate;
 	private Date _expirationDate;
@@ -424,4 +423,5 @@ public class JournalArticleSoap implements Serializable {
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;
+	private String _defaultLanguageId;
 }

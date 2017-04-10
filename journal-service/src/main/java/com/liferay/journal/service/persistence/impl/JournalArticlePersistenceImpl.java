@@ -32850,7 +32850,6 @@ public class JournalArticlePersistenceImpl extends BasePersistenceImpl<JournalAr
 		journalArticleImpl.setContent(journalArticle.getContent());
 		journalArticleImpl.setDDMStructureKey(journalArticle.getDDMStructureKey());
 		journalArticleImpl.setDDMTemplateKey(journalArticle.getDDMTemplateKey());
-		journalArticleImpl.setDefaultLanguageId(journalArticle.getDefaultLanguageId());
 		journalArticleImpl.setLayoutUuid(journalArticle.getLayoutUuid());
 		journalArticleImpl.setDisplayDate(journalArticle.getDisplayDate());
 		journalArticleImpl.setExpirationDate(journalArticle.getExpirationDate());
@@ -32864,6 +32863,7 @@ public class JournalArticlePersistenceImpl extends BasePersistenceImpl<JournalAr
 		journalArticleImpl.setStatusByUserId(journalArticle.getStatusByUserId());
 		journalArticleImpl.setStatusByUserName(journalArticle.getStatusByUserName());
 		journalArticleImpl.setStatusDate(journalArticle.getStatusDate());
+		journalArticleImpl.setDefaultLanguageId(journalArticle.getDefaultLanguageId());
 
 		return journalArticleImpl;
 	}

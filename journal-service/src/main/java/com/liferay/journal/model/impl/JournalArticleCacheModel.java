@@ -106,8 +106,6 @@ public class JournalArticleCacheModel implements CacheModel<JournalArticle>,
 		sb.append(DDMStructureKey);
 		sb.append(", DDMTemplateKey=");
 		sb.append(DDMTemplateKey);
-		sb.append(", defaultLanguageId=");
-		sb.append(defaultLanguageId);
 		sb.append(", layoutUuid=");
 		sb.append(layoutUuid);
 		sb.append(", displayDate=");
@@ -134,6 +132,8 @@ public class JournalArticleCacheModel implements CacheModel<JournalArticle>,
 		sb.append(statusByUserName);
 		sb.append(", statusDate=");
 		sb.append(statusDate);
+		sb.append(", defaultLanguageId=");
+		sb.append(defaultLanguageId);
 		sb.append("}");
 
 		return sb.toString();
@@ -225,13 +225,6 @@ public class JournalArticleCacheModel implements CacheModel<JournalArticle>,
 			journalArticleImpl.setDDMTemplateKey(DDMTemplateKey);
 		}
 
-		if (defaultLanguageId == null) {
-			journalArticleImpl.setDefaultLanguageId(StringPool.BLANK);
-		}
-		else {
-			journalArticleImpl.setDefaultLanguageId(defaultLanguageId);
-		}
-
 		if (layoutUuid == null) {
 			journalArticleImpl.setLayoutUuid(StringPool.BLANK);
 		}
@@ -295,6 +288,13 @@ public class JournalArticleCacheModel implements CacheModel<JournalArticle>,
 			journalArticleImpl.setStatusDate(new Date(statusDate));
 		}
 
+		if (defaultLanguageId == null) {
+			journalArticleImpl.setDefaultLanguageId(StringPool.BLANK);
+		}
+		else {
+			journalArticleImpl.setDefaultLanguageId(defaultLanguageId);
+		}
+
 		journalArticleImpl.resetOriginalValues();
 
 		journalArticleImpl.setDocument(_document);
@@ -333,7 +333,6 @@ public class JournalArticleCacheModel implements CacheModel<JournalArticle>,
 		content = objectInput.readUTF();
 		DDMStructureKey = objectInput.readUTF();
 		DDMTemplateKey = objectInput.readUTF();
-		defaultLanguageId = objectInput.readUTF();
 		layoutUuid = objectInput.readUTF();
 		displayDate = objectInput.readLong();
 		expirationDate = objectInput.readLong();
@@ -352,6 +351,7 @@ public class JournalArticleCacheModel implements CacheModel<JournalArticle>,
 		statusByUserId = objectInput.readLong();
 		statusByUserName = objectInput.readUTF();
 		statusDate = objectInput.readLong();
+		defaultLanguageId = objectInput.readUTF();
 
 		_document = (com.liferay.portal.kernel.xml.Document)objectInput.readObject();
 	}
@@ -436,13 +436,6 @@ public class JournalArticleCacheModel implements CacheModel<JournalArticle>,
 			objectOutput.writeUTF(DDMTemplateKey);
 		}
 
-		if (defaultLanguageId == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
-		}
-		else {
-			objectOutput.writeUTF(defaultLanguageId);
-		}
-
 		if (layoutUuid == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
@@ -482,6 +475,13 @@ public class JournalArticleCacheModel implements CacheModel<JournalArticle>,
 
 		objectOutput.writeLong(statusDate);
 
+		if (defaultLanguageId == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(defaultLanguageId);
+		}
+
 		objectOutput.writeObject(_document);
 	}
 
@@ -504,7 +504,6 @@ public class JournalArticleCacheModel implements CacheModel<JournalArticle>,
 	public String content;
 	public String DDMStructureKey;
 	public String DDMTemplateKey;
-	public String defaultLanguageId;
 	public String layoutUuid;
 	public long displayDate;
 	public long expirationDate;
@@ -518,5 +517,6 @@ public class JournalArticleCacheModel implements CacheModel<JournalArticle>,
 	public long statusByUserId;
 	public String statusByUserName;
 	public long statusDate;
+	public String defaultLanguageId;
 	public com.liferay.portal.kernel.xml.Document _document;
 }

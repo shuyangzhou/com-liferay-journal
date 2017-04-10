@@ -97,22 +97,12 @@ public interface JournalArticle extends JournalArticleModel, PersistedModel,
 
 	public com.liferay.dynamic.data.mapping.model.DDMTemplate getDDMTemplate();
 
-	@com.liferay.portal.kernel.json.JSON()
-	public java.lang.String getDescription();
-
 	public java.lang.String getDescription(java.util.Locale locale);
 
 	public java.lang.String getDescription(java.util.Locale locale,
 		boolean useDefault);
 
-	public java.lang.String getDescription(java.lang.String languageId);
-
-	public java.lang.String getDescription(java.lang.String languageId,
-		boolean useDefault);
-
 	public java.util.Map<java.util.Locale, java.lang.String> getDescriptionMap();
-
-	public java.lang.String getDescriptionMapAsXML();
 
 	public com.liferay.portal.kernel.xml.Document getDocument();
 
@@ -164,24 +154,14 @@ public interface JournalArticle extends JournalArticleModel, PersistedModel,
 	@java.lang.Deprecated()
 	public java.lang.String getTemplateId();
 
-	@com.liferay.portal.kernel.json.JSON()
-	public java.lang.String getTitle();
-
 	public java.lang.String getTitle(java.util.Locale locale);
 
 	public java.lang.String getTitle(java.util.Locale locale, boolean useDefault);
-
-	public java.lang.String getTitle(java.lang.String languageId);
-
-	public java.lang.String getTitle(java.lang.String languageId,
-		boolean useDefault);
 
 	@com.liferay.portal.kernel.json.JSON()
 	public java.lang.String getTitleCurrentValue();
 
 	public java.util.Map<java.util.Locale, java.lang.String> getTitleMap();
-
-	public java.lang.String getTitleMapAsXML();
 
 	public boolean hasApprovedVersion();
 

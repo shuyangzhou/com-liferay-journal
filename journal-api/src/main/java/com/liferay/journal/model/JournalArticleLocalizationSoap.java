@@ -33,12 +33,13 @@ public class JournalArticleLocalizationSoap implements Serializable {
 		JournalArticleLocalization model) {
 		JournalArticleLocalizationSoap soapModel = new JournalArticleLocalizationSoap();
 
-		soapModel.setArticleLocalizationId(model.getArticleLocalizationId());
+		soapModel.setMvccVersion(model.getMvccVersion());
+		soapModel.setJournalArticleLocalizationId(model.getJournalArticleLocalizationId());
 		soapModel.setCompanyId(model.getCompanyId());
-		soapModel.setArticlePK(model.getArticlePK());
+		soapModel.setJournalArticlePK(model.getJournalArticlePK());
+		soapModel.setLanguageId(model.getLanguageId());
 		soapModel.setTitle(model.getTitle());
 		soapModel.setDescription(model.getDescription());
-		soapModel.setLanguageId(model.getLanguageId());
 
 		return soapModel;
 	}
@@ -87,19 +88,28 @@ public class JournalArticleLocalizationSoap implements Serializable {
 	}
 
 	public long getPrimaryKey() {
-		return _articleLocalizationId;
+		return _journalArticleLocalizationId;
 	}
 
 	public void setPrimaryKey(long pk) {
-		setArticleLocalizationId(pk);
+		setJournalArticleLocalizationId(pk);
 	}
 
-	public long getArticleLocalizationId() {
-		return _articleLocalizationId;
+	public long getMvccVersion() {
+		return _mvccVersion;
 	}
 
-	public void setArticleLocalizationId(long articleLocalizationId) {
-		_articleLocalizationId = articleLocalizationId;
+	public void setMvccVersion(long mvccVersion) {
+		_mvccVersion = mvccVersion;
+	}
+
+	public long getJournalArticleLocalizationId() {
+		return _journalArticleLocalizationId;
+	}
+
+	public void setJournalArticleLocalizationId(
+		long journalArticleLocalizationId) {
+		_journalArticleLocalizationId = journalArticleLocalizationId;
 	}
 
 	public long getCompanyId() {
@@ -110,12 +120,20 @@ public class JournalArticleLocalizationSoap implements Serializable {
 		_companyId = companyId;
 	}
 
-	public long getArticlePK() {
-		return _articlePK;
+	public long getJournalArticlePK() {
+		return _journalArticlePK;
 	}
 
-	public void setArticlePK(long articlePK) {
-		_articlePK = articlePK;
+	public void setJournalArticlePK(long journalArticlePK) {
+		_journalArticlePK = journalArticlePK;
+	}
+
+	public String getLanguageId() {
+		return _languageId;
+	}
+
+	public void setLanguageId(String languageId) {
+		_languageId = languageId;
 	}
 
 	public String getTitle() {
@@ -134,18 +152,11 @@ public class JournalArticleLocalizationSoap implements Serializable {
 		_description = description;
 	}
 
-	public String getLanguageId() {
-		return _languageId;
-	}
-
-	public void setLanguageId(String languageId) {
-		_languageId = languageId;
-	}
-
-	private long _articleLocalizationId;
+	private long _mvccVersion;
+	private long _journalArticleLocalizationId;
 	private long _companyId;
-	private long _articlePK;
+	private long _journalArticlePK;
+	private String _languageId;
 	private String _title;
 	private String _description;
-	private String _languageId;
 }

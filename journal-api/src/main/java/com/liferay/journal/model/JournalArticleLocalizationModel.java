@@ -21,6 +21,7 @@ import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.model.MVCCModel;
 import com.liferay.portal.kernel.model.ShardedModel;
 import com.liferay.portal.kernel.service.ServiceContext;
 
@@ -41,7 +42,7 @@ import java.io.Serializable;
  */
 @ProviderType
 public interface JournalArticleLocalizationModel extends BaseModel<JournalArticleLocalization>,
-	ShardedModel {
+	MVCCModel, ShardedModel {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -63,18 +64,35 @@ public interface JournalArticleLocalizationModel extends BaseModel<JournalArticl
 	public void setPrimaryKey(long primaryKey);
 
 	/**
-	 * Returns the article localization ID of this journal article localization.
+	 * Returns the mvcc version of this journal article localization.
 	 *
-	 * @return the article localization ID of this journal article localization
+	 * @return the mvcc version of this journal article localization
 	 */
-	public long getArticleLocalizationId();
+	@Override
+	public long getMvccVersion();
 
 	/**
-	 * Sets the article localization ID of this journal article localization.
+	 * Sets the mvcc version of this journal article localization.
 	 *
-	 * @param articleLocalizationId the article localization ID of this journal article localization
+	 * @param mvccVersion the mvcc version of this journal article localization
 	 */
-	public void setArticleLocalizationId(long articleLocalizationId);
+	@Override
+	public void setMvccVersion(long mvccVersion);
+
+	/**
+	 * Returns the journal article localization ID of this journal article localization.
+	 *
+	 * @return the journal article localization ID of this journal article localization
+	 */
+	public long getJournalArticleLocalizationId();
+
+	/**
+	 * Sets the journal article localization ID of this journal article localization.
+	 *
+	 * @param journalArticleLocalizationId the journal article localization ID of this journal article localization
+	 */
+	public void setJournalArticleLocalizationId(
+		long journalArticleLocalizationId);
 
 	/**
 	 * Returns the company ID of this journal article localization.
@@ -93,18 +111,33 @@ public interface JournalArticleLocalizationModel extends BaseModel<JournalArticl
 	public void setCompanyId(long companyId);
 
 	/**
-	 * Returns the article pk of this journal article localization.
+	 * Returns the journal article pk of this journal article localization.
 	 *
-	 * @return the article pk of this journal article localization
+	 * @return the journal article pk of this journal article localization
 	 */
-	public long getArticlePK();
+	public long getJournalArticlePK();
 
 	/**
-	 * Sets the article pk of this journal article localization.
+	 * Sets the journal article pk of this journal article localization.
 	 *
-	 * @param articlePK the article pk of this journal article localization
+	 * @param journalArticlePK the journal article pk of this journal article localization
 	 */
-	public void setArticlePK(long articlePK);
+	public void setJournalArticlePK(long journalArticlePK);
+
+	/**
+	 * Returns the language ID of this journal article localization.
+	 *
+	 * @return the language ID of this journal article localization
+	 */
+	@AutoEscape
+	public String getLanguageId();
+
+	/**
+	 * Sets the language ID of this journal article localization.
+	 *
+	 * @param languageId the language ID of this journal article localization
+	 */
+	public void setLanguageId(String languageId);
 
 	/**
 	 * Returns the title of this journal article localization.
@@ -135,21 +168,6 @@ public interface JournalArticleLocalizationModel extends BaseModel<JournalArticl
 	 * @param description the description of this journal article localization
 	 */
 	public void setDescription(String description);
-
-	/**
-	 * Returns the language ID of this journal article localization.
-	 *
-	 * @return the language ID of this journal article localization
-	 */
-	@AutoEscape
-	public String getLanguageId();
-
-	/**
-	 * Sets the language ID of this journal article localization.
-	 *
-	 * @param languageId the language ID of this journal article localization
-	 */
-	public void setLanguageId(String languageId);
 
 	@Override
 	public boolean isNew();

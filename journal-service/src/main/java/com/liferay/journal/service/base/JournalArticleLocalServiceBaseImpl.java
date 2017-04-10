@@ -32,6 +32,7 @@ import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 
 import com.liferay.journal.model.JournalArticle;
+import com.liferay.journal.model.JournalArticleLocalization;
 import com.liferay.journal.service.JournalArticleLocalService;
 import com.liferay.journal.service.persistence.JournalArticleFinder;
 import com.liferay.journal.service.persistence.JournalArticleLocalizationPersistence;
@@ -89,7 +90,10 @@ import com.liferay.trash.kernel.service.persistence.TrashVersionPersistence;
 
 import java.io.Serializable;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -533,6 +537,121 @@ public abstract class JournalArticleLocalServiceBaseImpl
 	@Override
 	public JournalArticle updateJournalArticle(JournalArticle journalArticle) {
 		return journalArticlePersistence.update(journalArticle);
+	}
+
+	@Override
+	public JournalArticleLocalization fetchJournalArticleLocalization(long id,
+		String languageId) {
+		return journalArticleLocalizationPersistence.fetchByJA_L(id, languageId);
+	}
+
+	@Override
+	public JournalArticleLocalization getJournalArticleLocalization(long id,
+		String languageId) throws PortalException {
+		return journalArticleLocalizationPersistence.findByJA_L(id, languageId);
+	}
+
+	@Override
+	public List<JournalArticleLocalization> getJournalArticleLocalizations(
+		long id) {
+		return journalArticleLocalizationPersistence.findByJournalArticlePK(id);
+	}
+
+	protected JournalArticleLocalization updateJournalArticleLocalization(
+		JournalArticle journalArticle, String languageId, String title,
+		String description) throws PortalException {
+		JournalArticleLocalization journalArticleLocalization = journalArticleLocalizationPersistence.fetchByJA_L(journalArticle.getPrimaryKey(),
+				languageId);
+
+		if (journalArticleLocalization == null) {
+			long journalArticleLocalizationId = counterLocalService.increment();
+
+			journalArticleLocalization = journalArticleLocalizationPersistence.create(journalArticleLocalizationId);
+
+			journalArticleLocalization.setCompanyId(journalArticle.getCompanyId());
+
+			journalArticleLocalization.setJournalArticlePK(journalArticle.getPrimaryKey());
+			journalArticleLocalization.setLanguageId(languageId);
+		}
+
+		journalArticleLocalization.setTitle(title);
+		journalArticleLocalization.setDescription(description);
+
+		return journalArticleLocalizationPersistence.update(journalArticleLocalization);
+	}
+
+	protected List<JournalArticleLocalization> updateJournalArticleLocalizations(
+		JournalArticle journalArticle, Map<String, String> titleMap,
+		Map<String, String> descriptionMap) throws PortalException {
+		Map<String, String[]> localizedValuesMap = new HashMap<String, String[]>();
+
+		for (Map.Entry<String, String> entry : titleMap.entrySet()) {
+			String languageId = entry.getKey();
+
+			String[] localizedValues = localizedValuesMap.get(languageId);
+
+			if (localizedValues == null) {
+				localizedValues = new String[2];
+
+				localizedValuesMap.put(languageId, localizedValues);
+			}
+
+			localizedValues[0] = entry.getValue();
+		}
+
+		for (Map.Entry<String, String> entry : descriptionMap.entrySet()) {
+			String languageId = entry.getKey();
+
+			String[] localizedValues = localizedValuesMap.get(languageId);
+
+			if (localizedValues == null) {
+				localizedValues = new String[2];
+
+				localizedValuesMap.put(languageId, localizedValues);
+			}
+
+			localizedValues[1] = entry.getValue();
+		}
+
+		List<JournalArticleLocalization> journalArticleLocalizations = new ArrayList<JournalArticleLocalization>(localizedValuesMap.size());
+
+		for (JournalArticleLocalization journalArticleLocalization : journalArticleLocalizationPersistence.findByJournalArticlePK(
+				journalArticle.getPrimaryKey())) {
+			String[] localizedValues = localizedValuesMap.remove(journalArticleLocalization.getLanguageId());
+
+			if (localizedValues == null) {
+				journalArticleLocalizationPersistence.remove(journalArticleLocalization);
+			}
+			else {
+				journalArticleLocalization.setTitle(localizedValues[0]);
+				journalArticleLocalization.setDescription(localizedValues[1]);
+
+				journalArticleLocalizations.add(journalArticleLocalizationPersistence.update(
+						journalArticleLocalization));
+			}
+		}
+
+		for (Map.Entry<String, String[]> entry : localizedValuesMap.entrySet()) {
+			String languageId = entry.getKey();
+			String[] localizedValues = entry.getValue();
+
+			long journalArticleLocalizationId = counterLocalService.increment();
+
+			JournalArticleLocalization journalArticleLocalization = journalArticleLocalizationPersistence.create(journalArticleLocalizationId);
+
+			journalArticleLocalization.setCompanyId(journalArticle.getCompanyId());
+
+			journalArticleLocalization.setJournalArticlePK(journalArticle.getPrimaryKey());
+			journalArticleLocalization.setLanguageId(languageId);
+
+			journalArticleLocalization.setTitle(localizedValues[0]);
+			journalArticleLocalization.setDescription(localizedValues[1]);
+
+			journalArticleLocalizations.add(journalArticleLocalizationPersistence.update(
+					journalArticleLocalization));
+		}
+
+		return journalArticleLocalizations;
 	}
 
 	/**

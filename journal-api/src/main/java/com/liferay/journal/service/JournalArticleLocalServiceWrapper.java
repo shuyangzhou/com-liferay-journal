@@ -1646,6 +1646,21 @@ public class JournalArticleLocalServiceWrapper
 	}
 
 	@Override
+	public com.liferay.journal.model.JournalArticleLocalization fetchJournalArticleLocalization(
+		long id, java.lang.String languageId) {
+		return _journalArticleLocalService.fetchJournalArticleLocalization(id,
+			languageId);
+	}
+
+	@Override
+	public com.liferay.journal.model.JournalArticleLocalization getJournalArticleLocalization(
+		long id, java.lang.String languageId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _journalArticleLocalService.getJournalArticleLocalization(id,
+			languageId);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {
 		return _journalArticleLocalService.getActionableDynamicQuery();
 	}
@@ -3112,6 +3127,12 @@ public class JournalArticleLocalServiceWrapper
 	public java.util.List<com.liferay.journal.model.JournalArticle> getIndexableArticlesByResourcePrimKey(
 		long resourcePrimKey) {
 		return _journalArticleLocalService.getIndexableArticlesByResourcePrimKey(resourcePrimKey);
+	}
+
+	@Override
+	public java.util.List<com.liferay.journal.model.JournalArticleLocalization> getJournalArticleLocalizations(
+		long id) {
+		return _journalArticleLocalService.getJournalArticleLocalizations(id);
 	}
 
 	/**

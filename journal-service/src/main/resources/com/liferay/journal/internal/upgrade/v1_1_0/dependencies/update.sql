@@ -1,10 +1,11 @@
 create table JournalArticleLocalization (
-	articleLocalizationId LONG not null primary key,
+	mvccVersion LONG default 0 not null,
+	journalArticleLocalizationId LONG not null primary key,
 	companyId LONG,
-	articlePK LONG,
+	journalArticlePK LONG,
+	languageId VARCHAR(75) null,
 	title VARCHAR(400) null,
-	description STRING null,
-	languageId VARCHAR(75) null
+	description STRING null
 );
 
 create unique index IX_ACF2560A on JournalArticleLocalization (articlePK, languageId[$COLUMN_LENGTH:75$]);

@@ -33,6 +33,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import java.io.Serializable;
 
 import java.util.Date;
+import java.util.Map;
 
 /**
  * The base model interface for the JournalArticle service. Represents a row in the &quot;JournalArticle&quot; database table, with each column mapped to a property of this class.
@@ -395,21 +396,6 @@ public interface JournalArticleModel extends AttachedModel,
 	public void setDDMTemplateKey(String DDMTemplateKey);
 
 	/**
-	 * Returns the default language ID of this journal article.
-	 *
-	 * @return the default language ID of this journal article
-	 */
-	@AutoEscape
-	public String getDefaultLanguageId();
-
-	/**
-	 * Sets the default language ID of this journal article.
-	 *
-	 * @param defaultLanguageId the default language ID of this journal article
-	 */
-	public void setDefaultLanguageId(String defaultLanguageId);
-
-	/**
 	 * Returns the layout uuid of this journal article.
 	 *
 	 * @return the layout uuid of this journal article
@@ -633,6 +619,41 @@ public interface JournalArticleModel extends AttachedModel,
 	 */
 	@Override
 	public void setStatusDate(Date statusDate);
+
+	/**
+	 * Returns the default language ID of this journal article.
+	 *
+	 * @return the default language ID of this journal article
+	 */
+	@AutoEscape
+	public String getDefaultLanguageId();
+
+	/**
+	 * Sets the default language ID of this journal article.
+	 *
+	 * @param defaultLanguageId the default language ID of this journal article
+	 */
+	public void setDefaultLanguageId(String defaultLanguageId);
+
+	public String getTitle();
+
+	public String getTitle(String languageId);
+
+	public String getTitle(String languageId, boolean useDefault);
+
+	public String getTitleMapAsXML();
+
+	public Map<String, String> getLanguageIdToTitleMap();
+
+	public String getDescription();
+
+	public String getDescription(String languageId);
+
+	public String getDescription(String languageId, boolean useDefault);
+
+	public String getDescriptionMapAsXML();
+
+	public Map<String, String> getLanguageIdToDescriptionMap();
 
 	/**
 	 * Returns the trash entry created when this journal article was moved to the Recycle Bin. The trash entry may belong to one of the ancestors of this journal article.
