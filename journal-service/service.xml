@@ -33,11 +33,12 @@
 		<column name="treePath" type="String" />
 		<column accessor="true" name="articleId" type="String" />
 		<column name="version" type="double" />
+		<column localized="extra-table" name="title" type="String" />
 		<column name="urlTitle" type="String" />
+		<column localized="extra-table" name="description" type="String" />
 		<column name="content" type="String" />
 		<column name="DDMStructureKey" type="String" />
 		<column name="DDMTemplateKey" type="String" />
-		<column name="defaultLanguageId" type="String" />
 		<column name="layoutUuid" type="String" />
 		<column name="displayDate" type="Date" />
 		<column name="expirationDate" type="Date" />
@@ -209,7 +210,6 @@
 
 		<!-- References -->
 
-		<reference entity="JournalArticleLocalization" package-path="com.liferay.journal" />
 		<reference entity="JournalArticleResource" package-path="com.liferay.journal" />
 		<reference entity="JournalContentSearch" package-path="com.liferay.journal" />
 		<reference entity="JournalFolder" package-path="com.liferay.journal" />
@@ -233,33 +233,6 @@
 		<reference entity="RatingsStats" package-path="com.liferay.portlet.ratings" />
 		<reference entity="TrashEntry" package-path="com.liferay.portlet.trash" />
 		<reference entity="TrashVersion" package-path="com.liferay.portlet.trash" />
-	</entity>
-	<entity local-service="false" name="JournalArticleLocalization" remote-service="false">
-
-		<!-- PK fields -->
-
-		<column name="articleLocalizationId" primary="true" type="long" />
-
-		<!-- Audit fields -->
-
-		<column name="companyId" type="long" />
-
-		<!-- Other fields -->
-
-		<column name="articlePK" type="long" />
-		<column name="title" type="String" />
-		<column name="description" type="String" />
-		<column name="languageId" type="String" />
-
-		<!-- Finder methods -->
-
-		<finder name="ArticlePK" return-type="Collection">
-			<finder-column name="articlePK" />
-		</finder>
-		<finder name="A_L" return-type="JournalArticleLocalization" unique="true">
-			<finder-column name="articlePK" />
-			<finder-column name="languageId" />
-		</finder>
 	</entity>
 	<entity local-service="true" name="JournalArticleResource" remote-service="false" uuid="true">
 
