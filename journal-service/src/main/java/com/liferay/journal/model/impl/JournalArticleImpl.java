@@ -268,33 +268,11 @@ public class JournalArticleImpl extends JournalArticleBaseImpl {
 		return ddmTemplate;
 	}
 
-	@JSON
-	@Override
-	public String getDescription() {
-		String description =
-			JournalArticleLocalServiceUtil.getArticleDescription(
-				getId(), getDefaultLanguageId());
-
-		if (description == null) {
-			return StringPool.BLANK;
-		}
-		else {
-			return description;
-		}
-	}
-
 	@Override
 	public String getDescription(Locale locale) {
-		String description =
-			JournalArticleLocalServiceUtil.getArticleDescription(
-				getId(), locale);
+		String languageId = LocaleUtil.toLanguageId(locale);
 
-		if (description == null) {
-			return getDescription();
-		}
-		else {
-			return description;
-		}
+		return getDescription(languageId);
 	}
 
 	@Override
@@ -302,29 +280,6 @@ public class JournalArticleImpl extends JournalArticleBaseImpl {
 		String languageId = LocaleUtil.toLanguageId(locale);
 
 		return getDescription(languageId, useDefault);
-	}
-
-	@Override
-	public String getDescription(String languageId) {
-		Locale locale = LocaleUtil.fromLanguageId(languageId);
-
-		return getDescription(locale);
-	}
-
-	@Override
-	public String getDescription(String languageId, boolean useDefault) {
-		String description =
-			JournalArticleLocalServiceUtil.getArticleDescription(
-				getId(), languageId);
-
-		if (description != null) {
-			return description;
-		}
-		else if (useDefault) {
-			return getDescription();
-		}
-
-		return StringPool.BLANK;
 	}
 
 	@Override
@@ -337,13 +292,6 @@ public class JournalArticleImpl extends JournalArticleBaseImpl {
 			JournalArticleLocalServiceUtil.getArticleDescriptionMap(getId());
 
 		return _descriptionMap;
-	}
-
-	@Override
-	public String getDescriptionMapAsXML() {
-		return LocalizationUtil.updateLocalization(
-			getDescriptionMap(), StringPool.BLANK, "Description",
-			getDefaultLanguageId());
 	}
 
 	@Override
@@ -531,31 +479,11 @@ public class JournalArticleImpl extends JournalArticleBaseImpl {
 		return getDDMTemplateKey();
 	}
 
-	@JSON
-	@Override
-	public String getTitle() {
-		String title = JournalArticleLocalServiceUtil.getArticleTitle(
-			getId(), getDefaultLanguageId());
-
-		if (title == null) {
-			return StringPool.BLANK;
-		}
-		else {
-			return title;
-		}
-	}
-
 	@Override
 	public String getTitle(Locale locale) {
-		String title = JournalArticleLocalServiceUtil.getArticleTitle(
-			getId(), locale);
+		String languageId = LocaleUtil.toLanguageId(locale);
 
-		if (title == null) {
-			return getTitle();
-		}
-		else {
-			return title;
-		}
+		return getTitle(languageId);
 	}
 
 	@Override
@@ -563,28 +491,6 @@ public class JournalArticleImpl extends JournalArticleBaseImpl {
 		String languageId = LocaleUtil.toLanguageId(locale);
 
 		return getTitle(languageId, useDefault);
-	}
-
-	@Override
-	public String getTitle(String languageId) {
-		Locale locale = LocaleUtil.fromLanguageId(languageId);
-
-		return getTitle(locale);
-	}
-
-	@Override
-	public String getTitle(String languageId, boolean useDefault) {
-		String title = JournalArticleLocalServiceUtil.getArticleTitle(
-			getId(), languageId);
-
-		if (title != null) {
-			return title;
-		}
-		else if (useDefault) {
-			return getTitle();
-		}
-
-		return StringPool.BLANK;
 	}
 
 	@JSON
@@ -604,12 +510,6 @@ public class JournalArticleImpl extends JournalArticleBaseImpl {
 		_titleMap = JournalArticleLocalServiceUtil.getArticleTitleMap(getId());
 
 		return _titleMap;
-	}
-
-	@Override
-	public String getTitleMapAsXML() {
-		return LocalizationUtil.updateLocalization(
-			getTitleMap(), StringPool.BLANK, "Title", getDefaultLanguageId());
 	}
 
 	@Override
