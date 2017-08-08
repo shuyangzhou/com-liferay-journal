@@ -46,4 +46,4 @@ if (Validator.isNull(summary)) {
 }
 %>
 
-<%= HtmlUtil.stripHtml(StringUtil.shorten(summary, abstractLength)) %>
+<%= JournalStringUtil.shortenWithHtml(summary, abstractLength) %>
