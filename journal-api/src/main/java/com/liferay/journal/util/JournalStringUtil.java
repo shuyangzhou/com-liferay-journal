@@ -56,7 +56,6 @@ public class JournalStringUtil {
 				}
 			}
 			else if (!tag.endsWith(StringPool.SLASH) &&
-				!tag.startsWith(StringPool.SLASH) &&
 				!tag.startsWith(StringPool.EXCLAMATION)) {
 
 				int index = tag.indexOf(CharPool.SPACE);
