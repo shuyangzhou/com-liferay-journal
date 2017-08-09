@@ -50,9 +50,6 @@ public class JournalStringUtilTest {
 
 		Assert.assertEquals(
 			string, JournalStringUtil.shortenWithHtml(string, 14));
-
-		Assert.assertEquals(
-			string, JournalStringUtil.shortenWithHtml(string, 20));
 	}
 
 	@Test
