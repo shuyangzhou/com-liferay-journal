@@ -144,6 +144,13 @@ public class JournalStringUtilTest {
 			"<div><p><a></a></p></div>",
 			JournalStringUtil.shortenWithHtml(
 				string, string.length() - "</div></p>".length()));
+
+		string = "<a><b><c><a></a></c></b></a>";
+
+		Assert.assertEquals(
+			string,
+			JournalStringUtil.shortenWithHtml(
+				string, string.length() - "</c></b></a>".length()));
 	}
 
 	@Test
