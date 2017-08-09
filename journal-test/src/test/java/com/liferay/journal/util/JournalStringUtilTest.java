@@ -46,12 +46,10 @@ public class JournalStringUtilTest {
 			JournalStringUtil.shortenWithHtml(string, 10));
 
 		Assert.assertEquals(
-			"<div>123456789</div>",
-			JournalStringUtil.shortenWithHtml(string, 20));
+			string, JournalStringUtil.shortenWithHtml(string, 20));
 
 		Assert.assertEquals(
-			"<div>123456789</div>",
-			JournalStringUtil.shortenWithHtml(string, 14));
+			string, JournalStringUtil.shortenWithHtml(string, 14));
 
 		Assert.assertEquals(
 			string, JournalStringUtil.shortenWithHtml(string, 20));
@@ -101,8 +99,7 @@ public class JournalStringUtilTest {
 		String string = "<a><b><i>123456789</a></b>";
 
 		Assert.assertEquals(
-			"<a><b><i>123456789</a></b>",
-			JournalStringUtil.shortenWithHtml(string, 26));
+			string, JournalStringUtil.shortenWithHtml(string, 26));
 
 		Assert.assertEquals(
 			"<a><b><i>123456</a></b></i>...",
@@ -114,7 +111,7 @@ public class JournalStringUtilTest {
 		String string = "12345</p>abc";
 
 		Assert.assertEquals(
-			"12345</p>abc", JournalStringUtil.shortenWithHtml(string, 15));
+			string, JournalStringUtil.shortenWithHtml(string, 15));
 
 		Assert.assertEquals(
 			"12345</p>...", JournalStringUtil.shortenWithHtml(string, 9));
@@ -151,10 +148,10 @@ public class JournalStringUtilTest {
 			JournalStringUtil.shortenWithHtml(string, 10));
 
 		Assert.assertEquals(
-			"<div>123456789", JournalStringUtil.shortenWithHtml(string, 14));
+			string, JournalStringUtil.shortenWithHtml(string, 14));
 
 		Assert.assertEquals(
-			"<div>123456789", JournalStringUtil.shortenWithHtml(string, 20));
+			string, JournalStringUtil.shortenWithHtml(string, 20));
 	}
 
 	private static final String _FILE_NAME =
