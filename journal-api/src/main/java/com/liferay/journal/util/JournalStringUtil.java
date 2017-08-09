@@ -44,7 +44,10 @@ public class JournalStringUtil {
 		while (matcher.find()) {
 			String tag = matcher.group(1);
 
-			if (tag.startsWith(StringPool.SLASH)) {
+			char start = tag.charAt(0);
+			char end = tag.charAt(tag.length() - 1);
+
+			if (start == CharPool.SLASH) {
 				tag = tag.substring(1);
 
 				for (String openTag : tags) {
@@ -55,9 +58,7 @@ public class JournalStringUtil {
 					}
 				}
 			}
-			else if (!tag.endsWith(StringPool.SLASH) &&
-				!tag.startsWith(StringPool.EXCLAMATION)) {
-
+			else if (start != CharPool.EXCLAMATION && end != CharPool.SLASH) {
 				int index = tag.indexOf(CharPool.SPACE);
 
 				if (index != -1) {
