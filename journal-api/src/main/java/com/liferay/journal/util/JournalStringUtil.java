@@ -75,21 +75,15 @@ public class JournalStringUtil {
 			}
 		}
 
-		List<String> tokens = new ArrayList<>();
+		StringBundler sb = new StringBundler(tags.size() * 4 + 2);
 
-		tokens.add(shortString);
+		sb.append(shortString);
 
 		for (int i = tags.size() - 1; i >= 0; i--) {
-			tokens.add(StringPool.LESS_THAN);
-			tokens.add(StringPool.SLASH);
-			tokens.add(tags.get(i));
-			tokens.add(StringPool.GREATER_THAN);
-		}
-
-		StringBundler sb = new StringBundler(tokens.size());
-
-		for (String token : tokens) {
-			sb.append(token);
+			sb.append(StringPool.LESS_THAN);
+			sb.append(StringPool.SLASH);
+			sb.append(tags.get(i));
+			sb.append(StringPool.GREATER_THAN);
 		}
 
 		String cutString = string.substring(shortString.length());
