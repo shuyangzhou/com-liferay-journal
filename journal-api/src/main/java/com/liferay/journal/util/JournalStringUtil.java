@@ -18,7 +18,6 @@ import com.liferay.portal.kernel.util.CharPool;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.kernel.util.Validator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,11 +85,7 @@ public class JournalStringUtil {
 			sb.append(StringPool.GREATER_THAN);
 		}
 
-		String cutString = string.substring(shortString.length());
-
-		cutString = cutString.replaceAll("<\\/[^\\s].*?>", "");
-
-		if (Validator.isNotNull(cutString)) {
+		if (sb.length() != string.length()) {
 			sb.append(StringPool.TRIPLE_PERIOD);
 		}
 
