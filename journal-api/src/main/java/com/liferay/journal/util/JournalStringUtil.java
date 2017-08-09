@@ -90,9 +90,7 @@ public class JournalStringUtil {
 
 		cutString = cutString.replaceAll("<\\/[^\\s].*?>", "");
 
-		if ((shortString.length() < string.length()) &&
-			Validator.isNotNull(cutString)) {
-
+		if (Validator.isNotNull(cutString)) {
 			sb.append(StringPool.TRIPLE_PERIOD);
 		}
 
