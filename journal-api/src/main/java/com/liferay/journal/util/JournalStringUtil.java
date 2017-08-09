@@ -22,6 +22,7 @@ import com.liferay.portal.kernel.util.Validator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -50,9 +51,14 @@ public class JournalStringUtil {
 			if (start == CharPool.SLASH) {
 				tag = tag.substring(1);
 
-				for (String openTag : tags) {
+				ListIterator<String> listIterator = tags.listIterator(
+					tags.size());
+
+				while (listIterator.hasPrevious()) {
+					String openTag = listIterator.previous();
+
 					if (StringUtil.equalsIgnoreCase(tag, openTag)) {
-						tags.remove(openTag);
+						listIterator.remove();
 
 						break;
 					}
