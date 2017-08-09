@@ -44,7 +44,18 @@ public class JournalStringUtil {
 		while (matcher.find()) {
 			String tag = matcher.group(1);
 
-			if (!tag.endsWith(StringPool.SLASH) &&
+			if (tag.startsWith(StringPool.SLASH)) {
+				tag = tag.substring(1);
+
+				for (String openTag : tags) {
+					if (StringUtil.equalsIgnoreCase(tag, openTag)) {
+						tags.remove(openTag);
+
+						break;
+					}
+				}
+			}
+			else if (!tag.endsWith(StringPool.SLASH) &&
 				!tag.startsWith(StringPool.SLASH) &&
 				!tag.startsWith(StringPool.EXCLAMATION)) {
 
@@ -55,17 +66,6 @@ public class JournalStringUtil {
 				}
 
 				tags.add(tag);
-			}
-			else if (tag.startsWith(StringPool.SLASH)) {
-				tag = tag.substring(1);
-
-				for (String openTag : tags) {
-					if (StringUtil.equalsIgnoreCase(tag, openTag)) {
-						tags.remove(openTag);
-
-						break;
-					}
-				}
 			}
 		}
 
