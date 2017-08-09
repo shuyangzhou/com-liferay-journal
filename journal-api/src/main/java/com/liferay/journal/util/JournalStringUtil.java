@@ -57,7 +57,7 @@ public class JournalStringUtil {
 				tags.add(tag);
 			}
 			else if (tag.startsWith(StringPool.SLASH)) {
-				tag = tag.substring(tag.indexOf(StringPool.SLASH) + 1);
+				tag = tag.substring(1);
 
 				for (String openTag : tags) {
 					if (StringUtil.equalsIgnoreCase(tag, openTag)) {
