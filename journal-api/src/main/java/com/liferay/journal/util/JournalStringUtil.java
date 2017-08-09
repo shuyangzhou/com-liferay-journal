@@ -73,10 +73,10 @@ public class JournalStringUtil {
 
 		tokens.add(shortString);
 
-		for (String tag : tags) {
+		for (int i = tags.size() - 1; i >= 0; i--) {
 			tokens.add(StringPool.LESS_THAN);
 			tokens.add(StringPool.SLASH);
-			tokens.add(tag);
+			tokens.add(tags.get(i));
 			tokens.add(StringPool.GREATER_THAN);
 		}
 
