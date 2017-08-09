@@ -45,10 +45,6 @@ public class JournalStringUtilTest {
 			"<div>12345</div>...",
 			JournalStringUtil.shortenWithHtml(
 				string, string.length() - "6789</div>".length()));
-
-		Assert.assertEquals(
-			string, JournalStringUtil.shortenWithHtml(string, string.length()));
-
 		Assert.assertEquals(
 			string,
 			JournalStringUtil.shortenWithHtml(
@@ -99,21 +95,25 @@ public class JournalStringUtilTest {
 		String string = "<a><b><i>123456789</a></b>";
 
 		Assert.assertEquals(
-			string, JournalStringUtil.shortenWithHtml(string, string.length()));
-
-		Assert.assertEquals(
 			"<a><b><i>123456</a></b></i>...",
 			JournalStringUtil.shortenWithHtml(
 				string, string.length() - "789</a></b>".length()));
 	}
 
 	@Test
+	public void testNoModification() {
+		String string = "abcdefg";
+
+		Assert.assertSame(
+			string, JournalStringUtil.shortenWithHtml(string, string.length()));
+		Assert.assertSame(
+			string,
+			JournalStringUtil.shortenWithHtml(string, string.length() + 1));
+	}
+
+	@Test
 	public void testNoOpenTag() {
 		String string = "12345</p>abc";
-
-		Assert.assertEquals(
-			string,
-			JournalStringUtil.shortenWithHtml(string, string.length() + 3));
 
 		Assert.assertEquals(
 			"12345</p>...",
@@ -129,9 +129,6 @@ public class JournalStringUtilTest {
 	@Test
 	public void testNoTags() {
 		String string = "123456789";
-
-		Assert.assertEquals(
-			string, JournalStringUtil.shortenWithHtml(string, string.length()));
 
 		Assert.assertEquals(
 			"12345678...",
@@ -157,13 +154,6 @@ public class JournalStringUtilTest {
 			"<div>12345</div>...",
 			JournalStringUtil.shortenWithHtml(
 				string, string.length() - "6789".length()));
-
-		Assert.assertEquals(
-			string, JournalStringUtil.shortenWithHtml(string, string.length()));
-
-		Assert.assertEquals(
-			string,
-			JournalStringUtil.shortenWithHtml(string, string.length() + 4));
 	}
 
 	private static final String _FILE_NAME =
