@@ -20,7 +20,6 @@ import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 
-import javax.management.ValueExp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -87,7 +86,7 @@ public class JournalStringUtil {
 
 		String cutString = string.substring(shortString.length());
 
-		cutString = cutString.replaceAll("<\\/[^\\s].*?>","");
+		cutString = cutString.replaceAll("<\\/[^\\s].*?>", "");
 
 		if ((shortString.length() < string.length()) &&
 			Validator.isNotNull(cutString)) {
