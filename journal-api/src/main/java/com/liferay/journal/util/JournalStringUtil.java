@@ -48,8 +48,10 @@ public class JournalStringUtil {
 				!tag.startsWith(StringPool.SLASH) &&
 				!tag.startsWith(StringPool.EXCLAMATION)) {
 
-				if (tag.indexOf(CharPool.SPACE) != -1) {
-					tag = tag.substring(0, tag.indexOf(CharPool.SPACE));
+				int index = tag.indexOf(CharPool.SPACE);
+
+				if (index != -1) {
+					tag = tag.substring(0, index);
 				}
 
 				tags.add(tag);
