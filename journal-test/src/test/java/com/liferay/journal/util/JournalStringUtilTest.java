@@ -95,7 +95,7 @@ public class JournalStringUtilTest {
 		String string = "<a><b><i>123456789</a></b>";
 
 		Assert.assertEquals(
-			"<a><b><i>123456</a></b></i>...",
+			"<a><b><i>123456</i></b></a>...",
 			JournalStringUtil.shortenWithHtml(
 				string, string.length() - "789</a></b>".length()));
 	}
@@ -141,7 +141,7 @@ public class JournalStringUtilTest {
 		String string = "<div><p><a></a></div></p>";
 
 		Assert.assertEquals(
-			string,
+			"<div><p><a></a></p></div>",
 			JournalStringUtil.shortenWithHtml(
 				string, string.length() - "</div></p>".length()));
 	}
