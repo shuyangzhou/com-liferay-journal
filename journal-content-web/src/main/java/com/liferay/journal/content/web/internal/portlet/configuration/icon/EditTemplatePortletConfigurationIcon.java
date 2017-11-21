@@ -15,7 +15,7 @@
 package com.liferay.journal.content.web.internal.portlet.configuration.icon;
 
 import com.liferay.dynamic.data.mapping.model.DDMStructure;
-import com.liferay.journal.content.web.constants.JournalContentPortletKeys;
+import com.liferay.journal.constants.JournalContentPortletKeys;
 import com.liferay.journal.content.web.internal.display.context.JournalContentDisplayContext;
 import com.liferay.portal.kernel.portlet.configuration.icon.PortletConfigurationIcon;
 import com.liferay.portal.kernel.util.Portal;

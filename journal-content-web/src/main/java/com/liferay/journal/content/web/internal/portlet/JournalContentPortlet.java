@@ -14,8 +14,8 @@
 
 package com.liferay.journal.content.web.internal.portlet;
 
+import com.liferay.journal.constants.JournalContentPortletKeys;
 import com.liferay.journal.constants.JournalWebKeys;
-import com.liferay.journal.content.web.constants.JournalContentPortletKeys;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.model.JournalArticleDisplay;
 import com.liferay.journal.service.JournalArticleLocalService;

@@ -25,6 +25,7 @@ import com.liferay.dynamic.data.mapping.model.DDMTemplate;
 import com.liferay.dynamic.data.mapping.service.DDMStructureLocalServiceUtil;
 import com.liferay.dynamic.data.mapping.service.DDMTemplateLocalServiceUtil;
 import com.liferay.dynamic.data.mapping.service.permission.DDMTemplatePermission;
+import com.liferay.journal.constants.JournalContentPortletKeys;
 import com.liferay.journal.constants.JournalPortletKeys;
 import com.liferay.journal.constants.JournalWebKeys;
 import com.liferay.journal.content.asset.addon.entry.common.ContentMetadataAssetAddonEntry;
@@ -32,7 +33,6 @@ import com.liferay.journal.content.asset.addon.entry.common.ContentMetadataAsset
 import com.liferay.journal.content.asset.addon.entry.common.UserToolAssetAddonEntry;
 import com.liferay.journal.content.asset.addon.entry.common.UserToolAssetAddonEntryTracker;
 import com.liferay.journal.content.web.configuration.JournalContentPortletInstanceConfiguration;
-import com.liferay.journal.content.web.constants.JournalContentPortletKeys;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.model.JournalArticleDisplay;
 import com.liferay.journal.service.JournalArticleLocalServiceUtil;
