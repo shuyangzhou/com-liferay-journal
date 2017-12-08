@@ -25,7 +25,6 @@ import com.liferay.portal.kernel.notifications.UserNotificationDefinition;
 import com.liferay.portal.kernel.notifications.UserNotificationHandler;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.HtmlUtil;
-import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.ResourceBundleLoader;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
@@ -60,7 +59,7 @@ public class JournalUserNotificationHandler
 
 		ResourceBundle resourceBundle =
 			_resourceBundleLoader.loadResourceBundle(
-				LocaleUtil.toLanguageId(serviceContext.getLocale()));
+				serviceContext.getLocale());
 
 		JournalArticleAssetRenderer journalArticleAssetRenderer =
 			(JournalArticleAssetRenderer)assetRenderer;
